@@ -42,3 +42,10 @@ exports.isPrime = internals.isPrime = function (num) {
   }
   return true;
 };
+
+exports.gcd = internals.gcd = function (a,b){
+    if (b == 0)
+      return a;
+    else
+      return internals.gcd(b, (a % b));
+}
