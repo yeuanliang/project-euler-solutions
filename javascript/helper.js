@@ -43,9 +43,41 @@ exports.isPrime = internals.isPrime = function (num) {
   return true;
 };
 
-exports.gcd = internals.gcd = function (a,b){
-    if (b == 0)
-      return a;
-    else
-      return internals.gcd(b, (a % b));
-}
+exports.gcd = internals.gcd = function (a, b) {
+  if (b == 0) return a;
+  else return internals.gcd(b, a % b);
+};
+
+exports.getDivisors = internals.getDivisors = function (n) {
+  const primes = internals.getPrimes(10000);
+  const p = primes.length;
+  let count = 1;
+  let exponent = 1;
+  let factorization = "";
+  let m = n;
+  for (let i = 0; i < p; i++) {
+    if (primes[i] * primes[i] > m) {
+      count *= 2;
+      factorization += primes[i];
+      break;
+    }
+    while (m % primes[i] === 0) {
+      exponent += 1;
+      m /= primes[i];
+    }
+    if (exponent > 1) {
+      count *= exponent;
+      if (exponent > 2) {
+        factorization += primes[i] + "^" + (exponent - 1) + "*";
+      } else {
+        factorization += primes[i] + "*";
+      }
+    }
+    if(m===1){
+      factorization=factorization.substring(0,factorization.length-1)
+      break
+    }
+    exponent = 1;
+  }
+  return { count, factorization };
+};
