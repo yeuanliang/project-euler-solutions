@@ -73,11 +73,25 @@ exports.getDivisors = internals.getDivisors = function (n) {
         factorization += primes[i] + "*";
       }
     }
-    if(m===1){
-      factorization=factorization.substring(0,factorization.length-1)
-      break
+    if (m === 1) {
+      factorization = factorization.substring(0, factorization.length - 1);
+      break;
     }
     exponent = 1;
   }
   return { count, factorization };
+};
+
+exports.isLeapYear = internals.isLeapYear = function (year) {
+  if (year % 100 === 0) {
+    if (year % 400 === 0) {
+      return true;
+    } else {
+      return false;
+    }
+  } else if (year % 4 === 0) {
+    return true;
+  } else {
+    return false;
+  }
 };
