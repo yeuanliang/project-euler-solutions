@@ -76,7 +76,6 @@ exports.getDivisors = internals.getDivisors = function (n) {
       exponents.push(exponent);
     }
     exponent = 0;
-    number = n;
   }
   for (let i = 0; i < bases.length; i++) {
     count *= exponents[i] + 1;
