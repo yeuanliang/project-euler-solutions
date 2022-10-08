@@ -49,37 +49,43 @@ exports.gcd = internals.gcd = function (a, b) {
 };
 
 exports.getDivisors = internals.getDivisors = function (n) {
-  const primes = internals.getPrimes(10000);
-  const p = primes.length;
   let count = 1;
-  let exponent = 1;
   let factorization = "";
-  let m = n;
-  for (let i = 0; i < p; i++) {
-    if (primes[i] * primes[i] > m) {
-      count *= 2;
-      factorization += primes[i];
-      break;
-    }
-    while (m % primes[i] === 0) {
+  const bases = [];
+  const exponents = [];
+  if (internals.isPrime(n)) {
+    bases.push(n);
+    exponents.push(1);
+    return { count: 2, factorization: n + "", bases, exponents };
+  }
+  const primes = internals.getPrimes(Math.floor(Math.sqrt(n)));
+  const primesLength = primes.length;
+  let number = n;
+  let exponent = 0;
+  for (let i = 0; i < primesLength; i++) {
+    while (number % primes[i] === 0 && !bases.includes(primes[i])) {
       exponent += 1;
-      m /= primes[i];
-    }
-    if (exponent > 1) {
-      count *= exponent;
-      if (exponent > 2) {
-        factorization += primes[i] + "^" + (exponent - 1) + "*";
-      } else {
-        factorization += primes[i] + "*";
+      number /= primes[i];
+      if (internals.isPrime(number) && number !== primes[i]) {
+        bases.push(number);
+        exponents.push(1);
       }
     }
-    if (m === 1) {
-      factorization = factorization.substring(0, factorization.length - 1);
-      break;
+    if (exponent > 0) {
+      bases.push(primes[i]);
+      exponents.push(exponent);
     }
-    exponent = 1;
+    exponent = 0;
+    number = n;
   }
-  return { count, factorization };
+  for (let i = 0; i < bases.length; i++) {
+    count *= exponents[i] + 1;
+    if (exponents[i] > 1) {
+      factorization +=
+        bases[i] + "**" + exponents[i] + (i === bases.length - 1 ? "" : "*");
+    } else factorization += bases[i] + (i === bases.length - 1 ? "" : "*");
+  }
+  return { count, factorization, bases, exponents };
 };
 
 exports.isLeapYear = internals.isLeapYear = function (year) {
@@ -120,7 +126,7 @@ internals.prependZeros = function (array, n) {
   return array;
 };
 
-exports.bigNumberSum=internals.bigNumberSum = function (s, t) {
+exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
   let augend = s;
   let addend = t;
   let result = [];
@@ -149,7 +155,7 @@ exports.bigNumberSum=internals.bigNumberSum = function (s, t) {
   return result;
 };
 
-exports.bigNumberMultiply=internals.bigNumberMultiply = function (s, t) {
+exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
   let multiplicand = s;
   let multiplier = t;
   if (typeof s === "string" && typeof t === "string") {
