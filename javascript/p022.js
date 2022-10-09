@@ -7,40 +7,13 @@ const file = fs.readFileSync(
   path.resolve(__dirname, "../assets/p022_names.txt")
 );
 const names = file.toString().split(",").sort();
-const letters = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
+const namesCount = names.length
 let sum = 0;
-for (let i = 0; i < names.length; i++) {
+for (let i = 0; i < namesCount; i++) {
   let nameLength = names[i].length;
   let nameScore = 0;
-  for (let j = 0; j < nameLength; j++) {
-    nameScore += letters.indexOf(names[i][j]) + 1;
+  for (let j = 1; j < nameLength-1; j++) {
+    nameScore += (names[i][j].codePointAt()-64);
   }
   sum += (i + 1) * nameScore;
 }
