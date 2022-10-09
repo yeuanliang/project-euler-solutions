@@ -87,6 +87,17 @@ exports.getDivisors = internals.getDivisors = function (n) {
   return { count, factorization, bases, exponents };
 };
 
+exports.sumOfProperDivisors = internals.sumOfProperDivisors = function (n) {
+  const divisorsInfo = internals.getDivisors(n);
+  const primes = divisorsInfo.bases;
+  const exponents = divisorsInfo.exponents;
+  let sum = 1;
+  for (let i = 0; i < primes.length; i++) {
+    sum *= (primes[i] ** (exponents[i] + 1) - 1) / (primes[i] - 1);
+  }
+  return sum - n;
+};
+
 exports.isLeapYear = internals.isLeapYear = function (year) {
   if (year % 100 === 0) {
     if (year % 400 === 0) {
@@ -179,4 +190,12 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
   }
   product = internals.handleCarry(product);
   return product;
+};
+
+exports.factorial =internals.factorial = function (n) {
+  let result = 1;
+  for (let i = 1; i <= n; i++) {
+    result = i * result;
+  }
+  return result;
 };
