@@ -44,8 +44,17 @@ exports.isPrime = internals.isPrime = function (num) {
 };
 
 exports.gcd = internals.gcd = function (a, b) {
-  if (b == 0) return a;
-  else return internals.gcd(b, a % b);
+  // greatest common divisor
+  if (b == 0) {
+    return a;
+  } else {
+    return internals.gcd(b, a % b);
+  }
+};
+
+exports.lcm = internals.lcm = function (a, b) {
+  // least common multiple
+  return (a * b) / internals.gcd(a, b);
 };
 
 exports.getDivisors = internals.getDivisors = function (n) {
@@ -192,7 +201,7 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
   return product;
 };
 
-exports.factorial =internals.factorial = function (n) {
+exports.factorial = internals.factorial = function (n) {
   let result = 1;
   for (let i = 1; i <= n; i++) {
     result = i * result;
