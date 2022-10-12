@@ -202,9 +202,16 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
 };
 
 exports.factorial = internals.factorial = function (n) {
+  if(n===0){
+    return 1
+  }
   let result = 1;
   for (let i = 1; i <= n; i++) {
     result = i * result;
   }
   return result;
 };
+
+exports.isPandigital = internals.isPandigital = function(s){
+  return s.split('').sort().join('')==='123456789'.slice(0,s.length)
+}
