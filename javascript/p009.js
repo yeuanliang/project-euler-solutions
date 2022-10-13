@@ -39,4 +39,6 @@ const getPythagoreanTriplet = function (sum) {
   return result;
 };
 
+exports.getPythagoreanTriplet = getPythagoreanTriplet
+
 console.log(getPythagoreanTriplet(1000)[0].reduce((x, y) => x * y));
