@@ -201,6 +201,30 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
   return product;
 };
 
+exports.customPower = internals.customPower = function(base,exponent){
+  const digits = [];
+    digits.push(1);
+    let i = 0;
+    for (let j = 1; j <= exponent; j++) {
+      while (digits[i] != undefined) {
+        digits[i] *= base;
+        i += 1;
+      }
+      for (let i = 0; i < digits.length; i++) {
+        if (digits[i] >= 10) {
+          if (!digits[i + 1]) {
+            digits[i + 1] = Math.floor(digits[i] / 10);
+          } else {
+            digits[i + 1] += Math.floor(digits[i] / 10);
+          }
+          digits[i] = digits[i] % 10;
+        }
+      }
+      i = 0;
+    }
+    return digits.reverse();
+}
+
 exports.factorial = internals.factorial = function (n) {
   if(n===0){
     return 1
@@ -214,4 +238,16 @@ exports.factorial = internals.factorial = function (n) {
 
 exports.isPandigital = internals.isPandigital = function(s){
   return s.split('').sort().join('')==='123456789'.slice(0,s.length)
+}
+
+exports.isPentagonal=internals.isPentagonal = function (n) {
+  return (1 + Math.sqrt(1 + 24 * n)) % 6 === 0;
+};
+
+exports.isHexagonal = internals.isHexagonal = function(n){
+  return (1 + Math.sqrt(1 + 8 * n)) % 4 === 0
+}
+
+exports.isTriangle = internals.isTriangle = function(n){
+  return (1 + Math.sqrt(1 + 8 * n)) % 2 === 0
 }
