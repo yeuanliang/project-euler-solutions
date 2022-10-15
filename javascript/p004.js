@@ -1,17 +1,6 @@
 "use strict";
 
-const reverse = function (n) {
-  let reversed = 0;
-  while (n > 0) {
-    reversed = 10 * reversed + (n % 10);
-    n = parseInt(n / 10);
-  }
-  return reversed;
-};
-
-const isPalindrome = function (n) {
-  return n === reverse(n);
-};
+const helper = require('./helper')
 
 // Find the largest palindrome made from the product of
 // a m-digit number and a n-digit number
@@ -35,7 +24,7 @@ const largestPalindrome = function (m, n) {
       if (a * b <= largestPalindrome) {
         break;
       }
-      if (isPalindrome(a * b)) {
+      if (helper.isPalindrome(a * b)) {
         largestPalindrome = a * b;
       }
       b = b - db;
@@ -66,7 +55,7 @@ const allPalindromes = function (m, n) {
     }
     while (b >= a) {
       let temp = a * b;
-      if (isPalindrome(temp)) {
+      if (helper.isPalindrome(temp)) {
         if (!palindromes.includes(temp)) {
           palindromes.push(temp);
         } else {

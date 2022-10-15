@@ -2,6 +2,19 @@
 
 const internals = {};
 
+exports.reverse = internals.reverse = function (n) {
+  let reversed = 0;
+  while (n > 0) {
+    reversed = 10 * reversed + (n % 10);
+    n = parseInt(n / 10);
+  }
+  return reversed;
+};
+
+exports.isPalindrome = internals.isPalindrome = function (n) {
+  return n === internals.reverse(n);
+};
+
 exports.getPrimes = internals.getPrimes = function (n) {
   // Sieve of Sundaram
   let nNew = n / 2;
@@ -250,4 +263,8 @@ exports.isHexagonal = internals.isHexagonal = function(n){
 
 exports.isTriangle = internals.isTriangle = function(n){
   return (1 + Math.sqrt(1 + 8 * n)) % 2 === 0
+}
+
+exports.hasSameDigits = internals.hasSameDigits = function(a,b){
+  return (a+'').split('').sort().join('')===(b+'').split('').sort().join('')
 }
