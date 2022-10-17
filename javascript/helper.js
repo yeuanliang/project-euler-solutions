@@ -214,33 +214,33 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
   return product;
 };
 
-exports.customPower = internals.customPower = function(base,exponent){
+exports.customPower = internals.customPower = function (base, exponent) {
   const digits = [];
-    digits.push(1);
-    let i = 0;
-    for (let j = 1; j <= exponent; j++) {
-      while (digits[i] != undefined) {
-        digits[i] *= base;
-        i += 1;
-      }
-      for (let i = 0; i < digits.length; i++) {
-        if (digits[i] >= 10) {
-          if (!digits[i + 1]) {
-            digits[i + 1] = Math.floor(digits[i] / 10);
-          } else {
-            digits[i + 1] += Math.floor(digits[i] / 10);
-          }
-          digits[i] = digits[i] % 10;
-        }
-      }
-      i = 0;
+  digits.push(1);
+  let i = 0;
+  for (let j = 1; j <= exponent; j++) {
+    while (digits[i] != undefined) {
+      digits[i] *= base;
+      i += 1;
     }
-    return digits.reverse();
-}
+    for (let i = 0; i < digits.length; i++) {
+      if (digits[i] >= 10) {
+        if (!digits[i + 1]) {
+          digits[i + 1] = Math.floor(digits[i] / 10);
+        } else {
+          digits[i + 1] += Math.floor(digits[i] / 10);
+        }
+        digits[i] = digits[i] % 10;
+      }
+    }
+    i = 0;
+  }
+  return digits.reverse();
+};
 
 exports.factorial = internals.factorial = function (n) {
-  if(n===0){
-    return 1
+  if (n === 0) {
+    return 1;
   }
   let result = 1;
   for (let i = 1; i <= n; i++) {
@@ -249,22 +249,70 @@ exports.factorial = internals.factorial = function (n) {
   return result;
 };
 
-exports.isPandigital = internals.isPandigital = function(s){
-  return s.split('').sort().join('')==='123456789'.slice(0,s.length)
-}
+exports.isPandigital = internals.isPandigital = function (s) {
+  return s.split("").sort().join("") === "123456789".slice(0, s.length);
+};
 
-exports.isPentagonal=internals.isPentagonal = function (n) {
+exports.isPentagonal = internals.isPentagonal = function (n) {
   return (1 + Math.sqrt(1 + 24 * n)) % 6 === 0;
 };
 
-exports.isHexagonal = internals.isHexagonal = function(n){
-  return (1 + Math.sqrt(1 + 8 * n)) % 4 === 0
-}
+exports.isHexagonal = internals.isHexagonal = function (n) {
+  return (1 + Math.sqrt(1 + 8 * n)) % 4 === 0;
+};
 
-exports.isTriangle = internals.isTriangle = function(n){
-  return (1 + Math.sqrt(1 + 8 * n)) % 2 === 0
-}
+exports.isTriangle = internals.isTriangle = function (n) {
+  return (1 + Math.sqrt(1 + 8 * n)) % 2 === 0;
+};
 
-exports.hasSameDigits = internals.hasSameDigits = function(a,b){
-  return (a+'').split('').sort().join('')===(b+'').split('').sort().join('')
-}
+exports.isHeptagonal = internals.isHeptagonal = function (n) {
+  return (3 + Math.sqrt(9 + 40 * n)) % 10 === 0;
+};
+
+exports.isOctagonal = internals.isOctagonal = function (n) {
+  return (2 + Math.sqrt(4 + 12 * n)) % 6 === 0;
+};
+
+exports.hasSameDigits = internals.hasSameDigits = function (a, b) {
+  return (
+    (a + "").split("").sort().join("") === (b + "").split("").sort().join("")
+  );
+};
+
+exports.getPythagoreanTriplet = internals.getPythagoreanTriplet = function (p) {
+  // gcd(m, n) = 1, m > n
+  // a = m * m - n * n
+  // b = 2 * m * n
+  // c = m * m + n * n
+  if (p % 2 === 1) {
+    throw "no result";
+  }
+  let s = p / 2;
+  let k = 0;
+  const result = [];
+  for (let m = 2; m * m < s; m++) {
+    if (s % m === 0) {
+      let sm = s / m;
+      while (sm % 2 === 0) {
+        sm = sm / 2;
+      }
+      if (m % 2 === 1) {
+        k = m + 2;
+      } else {
+        k = m + 1;
+      }
+      while (k < 2 * m && k <= sm) {
+        if (sm % k === 0 && internals.gcd(k, m) === 1) {
+          let d = s / (k * m);
+          let n = k - m;
+          let a = d * (m * m - n * n);
+          let b = 2 * d * m * n;
+          let c = d * (m * m + n * n);
+          result.push([a, b, c]);
+        }
+        k += 2;
+      }
+    }
+  }
+  return result;
+};
