@@ -262,7 +262,11 @@ exports.isHexagonal = internals.isHexagonal = function (n) {
 };
 
 exports.isTriangle = internals.isTriangle = function (n) {
-  return (1 + Math.sqrt(1 + 8 * n)) % 2 === 0;
+  return (-1 + Math.sqrt(1 + 8 * n)) % 2 === 0;
+};
+
+exports.isSquare = internals.isSquare = function (n) {
+  return Number.isInteger(Math.sqrt(n));
 };
 
 exports.isHeptagonal = internals.isHeptagonal = function (n) {
