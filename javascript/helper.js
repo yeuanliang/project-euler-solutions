@@ -159,9 +159,9 @@ internals.prependZeros = function (array, n) {
 };
 
 exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
-  let augend = s;
-  let addend = t;
   let result = [];
+  let augend = null;
+  let addend = null;
   if (typeof s === "string" && typeof t === "string") {
     while (s[0] === "0") {
       s = s.slice(1);
@@ -172,6 +172,9 @@ exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
       t = t.slice(1);
     }
     addend = Array.from(t, Number);
+  }else{
+    augend=[].concat(s)
+    addend=[].concat(t)
   }
   if (augend.length < addend.length) {
     [augend, addend] = [addend, augend];
@@ -188,8 +191,8 @@ exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
 };
 
 exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
-  let multiplicand = s;
-  let multiplier = t;
+  let multiplicand = null;
+  let multiplier = null;
   if (typeof s === "string" && typeof t === "string") {
     while (s[0] === "0") {
       s = s.slice(1);
@@ -200,6 +203,9 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
       t = t.slice(1);
     }
     multiplier = Array.from(t, Number);
+  }else{
+    multiplicand = [].concat(s)
+    multiplier=[].concat(t)
   }
   let product = Array.from(
     { length: multiplier.length + multiplicand.length - 1 },
@@ -317,6 +323,50 @@ exports.getPythagoreanTriplet = internals.getPythagoreanTriplet = function (p) {
         k += 2;
       }
     }
+  }
+  return result;
+};
+
+internals.sqrt = function (n) {
+  const integerPart = Math.floor(Math.sqrt(n));
+  const numerator = "sqrt" + n + " - " + integerPart;
+  const denominator = 1;
+  return [integerPart, numerator, denominator];
+};
+
+internals.customFractional = function (numerator, s) {
+  // integerPart , fractionalPart
+  const irrational = s.split(" - ");
+  const n = +irrational[0].slice(4);
+  const sqrtNInteger = Math.floor(Math.sqrt(n));
+  const num = +irrational[1];
+  let denominator = n - num * num;
+  if (numerator > 1) {
+    denominator = denominator / numerator;
+  }
+  const integerPart = Math.floor((sqrtNInteger + num) / denominator);
+  const newNumerator =
+    irrational[0] + " - " + (integerPart * denominator - num);
+  return [integerPart, newNumerator, denominator];
+};
+
+exports.findContinuedFraction=internals.findContinuedFraction = function (n) {
+  const fractionalParts = [];
+  const result = [0, []];
+  const start = internals.sqrt(n);
+  result[0] = start[0];
+  let numerator = start[1];
+  let denominator = start[2];
+  fractionalParts.push(numerator + " / " + denominator);
+  while (true) {
+    let temp = internals.customFractional(denominator, numerator);
+    result[1].push(temp[0]);
+    let fractional = temp[1] + " / " + temp[2];
+    if (fractionalParts.includes(fractional)) {
+      break;
+    }
+    denominator = temp[2];
+    numerator = temp[1];
   }
   return result;
 };
