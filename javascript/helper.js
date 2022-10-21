@@ -28,7 +28,7 @@ exports.getPrimes = internals.getPrimes = function (n) {
       marked[i + j + 2 * i * j] = true;
     }
   }
-  if (n > 2) {
+  if (n >= 2) {
     primes.push(2);
   }
   for (let i = 1; i < nNew; i++) {
@@ -370,3 +370,24 @@ exports.findContinuedFraction=internals.findContinuedFraction = function (n) {
   }
   return result;
 };
+
+exports.totient = internals.totient = function (n) {
+  if (n === 1) {
+    return 1;
+  }
+  let count = 1;
+  const { bases: factors, exponents } = internals.getDivisors(n);
+  const factorsLength = factors.length;
+  for (let i = 0; i < factorsLength; i++) {
+    count *= factors[i] ** (exponents[i] - 1) * (factors[i] - 1);
+  }
+  return count;
+};
+
+exports.countProperFractions =internals.countProperFractions = function(d){
+  let count = 0
+  for(let i=2;i<=d;i++){
+      count += internals.totient(i)
+  }
+  return count
+}
