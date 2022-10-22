@@ -3,14 +3,14 @@
 const helper = require("./helper");
 
 const digitsFactorials = [];
-// const chainLength = new Map()
-// chainLength.set(169,3)
-// chainLength.set(363601,3)
-// chainLength.set(1454,3)
-// chainLength.set(871,2)
-// chainLength.set(872,2)
-// chainLength.set(45361,2)
-// chainLength.set(45362,2)
+const chainLength = new Map();
+chainLength.set(169, 3);
+chainLength.set(363601, 3);
+chainLength.set(1454, 3);
+chainLength.set(871, 2);
+chainLength.set(872, 2);
+chainLength.set(45361, 2);
+chainLength.set(45362, 2);
 
 for (let i = 0; i <= 9; i++) {
   digitsFactorials.push(helper.factorial(i));
@@ -25,39 +25,46 @@ const sumDigitFactorial = function (n) {
   return sum;
 };
 
-// const countNonRepeating = function(n){
-//     if(chainLength.has(n)){
-//         return chainLength.get(n)
-//     }
-//     const result = [n]
-//     let sum = sumDigitFactorial(n)
-//     if(chainLength.has(sum)){
-//         return chainLength.get(sum)+1
-//     }else{
-//         result.push(sum)
-//     }
-//     while(true){
-//         sum = sumDigitFactorial(sum)
-//         if(chainLength.has(sum)){
-//             for(let i=0;i<result.length;i++){
-//                 chainLength.set(result[i],result.length+chainLength.get(sum)-i)
-//             }
-//             return chainLength.get(sum)+result.length
-//         }else{
-//             result.push(sum)
-//         }
-//     }
-// }
-
 const countNonRepeating = function (n) {
+  if (chainLength.has(n)) {
+    return chainLength.get(n);
+  }
   const result = [n];
   let sum = sumDigitFactorial(n);
-  while (!result.includes(sum)) {
+  if (sum === n) {
+    chainLength.set(n, 1);
+    return 1;
+  } else if (chainLength.has(sum)) {
+    return chainLength.get(sum) + 1;
+  } else {
     result.push(sum);
-    sum = sumDigitFactorial(sum);
   }
-  return result.length;
+  while (true) {
+    sum = sumDigitFactorial(sum);
+    if (chainLength.has(sum)) {
+      for (let i = 0; i < result.length; i++) {
+        chainLength.set(result[i], result.length + chainLength.get(sum) - i);
+      }
+      return chainLength.get(sum) + result.length;
+    } else if (result.includes(sum)) {
+      chainLength.set(sum, 1);
+      chainLength.set(n, result.length);
+      return result.length;
+    } else {
+      result.push(sum);
+    }
+  }
 };
+
+// const countNonRepeating = function (n) {
+//   const result = [n];
+//   let sum = sumDigitFactorial(n);
+//   while (!result.includes(sum)) {
+//     result.push(sum);
+//     sum = sumDigitFactorial(sum);
+//   }
+//   return result.length;
+// };
 
 const p074Solution = function () {
   let count = 0;
