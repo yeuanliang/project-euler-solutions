@@ -109,7 +109,7 @@ exports.getDivisors = internals.getDivisors = function (n) {
   return { count, factorization, bases, exponents };
 };
 
-exports.sumOfProperDivisors = internals.sumOfProperDivisors = function (n) {
+exports.sumOfDivisors = internals.sumOfDivisors = function (n) {
   const divisorsInfo = internals.getDivisors(n);
   const primes = divisorsInfo.bases;
   const exponents = divisorsInfo.exponents;
@@ -117,7 +117,7 @@ exports.sumOfProperDivisors = internals.sumOfProperDivisors = function (n) {
   for (let i = 0; i < primes.length; i++) {
     sum *= (primes[i] ** (exponents[i] + 1) - 1) / (primes[i] - 1);
   }
-  return sum - n;
+  return sum;
 };
 
 exports.isLeapYear = internals.isLeapYear = function (year) {

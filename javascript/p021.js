@@ -32,30 +32,20 @@ const sumOfProperDivisors = function (n) {
 
 // prime
 // https://mathschallenge.net/index.php?section=faq&ref=number/sum_of_divisors
-const sumOfDivisors = function (n) {
-  const divisorsInfo = helper.getDivisors(n);
-  const primes = divisorsInfo.bases;
-  const exponents = divisorsInfo.exponents;
-  let sum = 1;
-  for (let i = 0; i < primes.length; i++) {
-    sum *= (primes[i] ** (exponents[i] + 1) - 1) / (primes[i] - 1);
-  }
-  return sum - n;
-};
 
 const sumOfAmicableNumbers = function (n) {
   const amicableNumbers = [];
   let sum = 0;
   for (let a = 2; a < n; a++) {
-    let b = sumOfDivisors(a);
+    let b = helper.sumOfDivisors(a) - a;
     if (b > a) {
-      if (sumOfDivisors(b) === a) {
+      if (helper.sumOfDivisors(b) - b === a) {
         amicableNumbers.push([a, b]);
         sum += a + b;
       }
     }
   }
-  console.log(amicableNumbers)
+  console.log(amicableNumbers);
   return sum;
 };
 

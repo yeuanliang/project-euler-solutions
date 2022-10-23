@@ -3,7 +3,7 @@
 const helper = require("./helper");
 
 const isAbundantNumber = function (n) {
-  return helper.sumOfProperDivisors(n) > n;
+  return helper.sumOfDivisors(n) - n > n;
 };
 
 const allAbundantNumbers = function (n) {
