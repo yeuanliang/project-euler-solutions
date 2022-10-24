@@ -71,33 +71,28 @@ exports.lcm = internals.lcm = function (a, b) {
 };
 
 exports.getDivisors = internals.getDivisors = function (n) {
+  let number=n
   let count = 1;
   let factorization = "";
   const bases = [];
   const exponents = [];
-  if (internals.isPrime(n)) {
-    bases.push(n);
-    exponents.push(1);
-    return { count: 2, factorization: n + "", bases, exponents };
-  }
-  const primes = internals.getPrimes(Math.floor(Math.sqrt(n)));
-  const primesLength = primes.length;
-  let number = n;
-  let exponent = 0;
-  for (let i = 0; i < primesLength; i++) {
-    while (number % primes[i] === 0 && !bases.includes(primes[i])) {
-      exponent += 1;
-      number /= primes[i];
-      if (internals.isPrime(number) && number !== primes[i]) {
-        bases.push(number);
-        exponents.push(1);
+  for (let i = 2; i*i<=n ; i=i+1) {
+    if (number % i === 0) {
+      let exp = 0;
+      while (number % i === 0) {
+        number /= i;
+        exp += 1;
       }
+      bases.push(i)
+      exponents.push(exp)
     }
-    if (exponent > 0) {
-      bases.push(primes[i]);
-      exponents.push(exponent);
-    }
-    exponent = 0;
+  }
+  if (number > 1) {
+    bases.push(number)
+    exponents.push(1)
+  }
+  if(number===n){
+    return { count:2, factorization: 1+' * '+n, bases, exponents }
   }
   for (let i = 0; i < bases.length; i++) {
     count *= exponents[i] + 1;
