@@ -1,13 +1,17 @@
 const helper = require("./helper");
 
+// time cost: 16min23s; memory: 6GB
+
 const limit = 10 ** 8;
 const rootLimit = Math.floor(Math.sqrt(limit));
 const primesSet = helper.getPrimes(Math.floor(Math.sqrt(limit)));
 const squaresSum = [];
+
 for (let i = 0; i <= limit; i++) {
   squaresSum.push(false);
 }
-// gcd(a,b)=1&&a*a+b*b is composite
+
+// gcd(a,b) = 1 && a * a + b * b is composite
 for (let i = 1; i <= rootLimit; i++) {
   for (let j = i + 1; j <= rootLimit; j++) {
     let k = i * i + j * j;
@@ -41,23 +45,23 @@ for (let i = 1; i <= rootLimit; i++) {
 
 const primeFactorization = function (n) {
   const bases = [];
-  const exponents=[]
-  for (let i = 0; primesSet[i]*primesSet[i]<=n ; ++i) {
+  const exponents = [];
+  for (let i = 0; primesSet[i] * primesSet[i] <= n; ++i) {
     if (n % primesSet[i] == 0) {
       let count = 0;
       while (n % primesSet[i] == 0) {
         n /= primesSet[i];
         count += 1;
       }
-      bases.push(primesSet[i])
-      exponents.push(count)
+      bases.push(primesSet[i]);
+      exponents.push(count);
     }
   }
   if (n > 1) {
-    bases.push(n)
-    exponents.push(1)
+    bases.push(n);
+    exponents.push(1);
   }
-  return {bases,exponents};
+  return { bases, exponents };
 };
 
 const genDivisors = function (primes, exponents) {
@@ -141,6 +145,7 @@ const sumPrimeComplexDivisors = function (primes, exponents) {
   }
   return sumPrimeComplex;
 };
+
 const complexDivisorsSum = function (n) {
   const { bases, exponents } = primeFactorization(n);
   const sumReal = sumRealDivisors(bases, exponents);
@@ -149,9 +154,33 @@ const complexDivisorsSum = function (n) {
   return sumReal + sumPrimeComplex + sumCompositeComplex;
 };
 
-let sum = 1n;
-for (let i = 2; i <= limit; i++) {
+const p153Solution = function () {
+  let sum = 1n;
+  for (let i = 2; i <= limit; i++) {
+    sum += BigInt(complexDivisorsSum(i));
+  }
+  return sum;
+};
 
-  sum += BigInt(complexDivisorsSum(i));
+console.log(p153Solution());
+
+// time cost: 3min41s
+const p153Solution2 = function(){
+  let [s1, r, x, s] = [0n, 0n, 0n, 0n];
+  for (let a = 1n; a <= n; a++) {
+    s += a * (n / a) + 2n * a * (n / (2n * a));
+    for (let b = a + 1n; a * a + b * b <= n; b++) {
+      if (helper.gcd(a, b) === 1n) {
+        r = n / (a * a + b * b);
+        s1 = 0n;
+        for (x = 1n; x <= r; x++) {
+          s1 += x * (r / x);
+        }
+        s += 2n * (a + b) * s1;
+      }
+    }
+  }
+  return s;
 }
-console.log(sum);
+
+console.log(p153Solution2());
