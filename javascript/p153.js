@@ -1,14 +1,12 @@
-"use strict";
-
 const helper = require("./helper");
 
 const limit = 10 ** 8;
 const rootLimit = Math.floor(Math.sqrt(limit));
+const primesSet = helper.getPrimes(Math.floor(Math.sqrt(limit)));
 const squaresSum = [];
 for (let i = 0; i <= limit; i++) {
   squaresSum.push(false);
 }
-
 // gcd(a,b)=1&&a*a+b*b is composite
 for (let i = 1; i <= rootLimit; i++) {
   for (let j = i + 1; j <= rootLimit; j++) {
@@ -41,6 +39,27 @@ for (let i = 1; i <= rootLimit; i++) {
 //   return result;
 // };
 
+const primeFactorization = function (n) {
+  const bases = [];
+  const exponents=[]
+  for (let i = 0; primesSet[i]*primesSet[i]<=n ; ++i) {
+    if (n % primesSet[i] == 0) {
+      let count = 0;
+      while (n % primesSet[i] == 0) {
+        n /= primesSet[i];
+        count += 1;
+      }
+      bases.push(primesSet[i])
+      exponents.push(count)
+    }
+  }
+  if (n > 1) {
+    bases.push(n)
+    exponents.push(1)
+  }
+  return {bases,exponents};
+};
+
 const genDivisors = function (primes, exponents) {
   let i = 0;
   let temp = [];
@@ -68,7 +87,7 @@ const sumCompositeComplexDivisors = function (n, primes, exponents) {
         if (n / d === 1) {
           sumCompositeComplex += 2 * (p[0] + p[1]);
         } else {
-          let { bases, exponents } = helper.getDivisors(n / d);
+          let { bases, exponents } = primeFactorization(n / d);
           sumCompositeComplex +=
             sumRealDivisors(bases, exponents) * 2 * (p[0] + p[1]);
         }
@@ -77,6 +96,7 @@ const sumCompositeComplexDivisors = function (n, primes, exponents) {
   }
   return sumCompositeComplex;
 };
+
 const sumRealDivisors = function (primes, exponents) {
   let sumReal = 1;
   for (let i = 0; i < primes.length; i++) {
@@ -122,19 +142,16 @@ const sumPrimeComplexDivisors = function (primes, exponents) {
   return sumPrimeComplex;
 };
 const complexDivisorsSum = function (n) {
-  const { bases, exponents } = helper.getDivisors(n);
+  const { bases, exponents } = primeFactorization(n);
   const sumReal = sumRealDivisors(bases, exponents);
   const sumPrimeComplex = sumPrimeComplexDivisors(bases, exponents);
   const sumCompositeComplex = sumCompositeComplexDivisors(n, bases, exponents);
   return sumReal + sumPrimeComplex + sumCompositeComplex;
 };
 
-// S10=161; S100000=17924657155
-const p153Solution = function(){
-    let sum = 1;
-    for (let i = 2; i <= limit; i++) {
-      sum += complexDivisorsSum(i);
-    }
-    return sum
+let sum = 1n;
+for (let i = 2; i <= limit; i++) {
+
+  sum += BigInt(complexDivisorsSum(i));
 }
-console.log(p153Solution());
+console.log(sum);
