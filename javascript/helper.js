@@ -185,6 +185,68 @@ exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
   return result;
 };
 
+internals.handleDifference = function(array){
+  const len = array.length
+  const difference = [].concat(array)
+  while(difference[0]===0){
+    difference.shift()
+    if(difference.length===0){
+      return [0]
+    }
+  }
+  if(difference.length===1){
+    return difference
+  }
+  if(difference[0]>0){
+    for(let i=len-1;i>0;i--){
+      if(difference[i]<0){
+        difference[i]+=10
+        difference[i-1]-=1
+      }
+    }
+  }else{
+    for(let i=len-1;i>0;i--){
+      if(difference[i]>0){
+        difference[i]-=10
+        difference[i-1]+=1
+      }
+    }
+  }
+  return difference
+}
+
+exports.bigNumberSub = internals.bigNumberSub = function (s, t) {
+  let difference = [];
+  let minuend = null;
+  let subtrahend = null;
+  if (typeof s === "string" && typeof t === "string") {
+    while (s[0] === "0") {
+      s = s.slice(1);
+    }
+    minuend = Array.from(s, Number);
+
+    while (t[0] === "0") {
+      t = t.slice(1);
+    }
+    subtrahend = Array.from(t, Number);
+  }else{
+    minuend=[].concat(s)
+    subtrahend=[].concat(t)
+  }
+
+  const deltaLength = minuend.length - subtrahend.length;
+  if(deltaLength<0){
+    minuend = internals.prependZeros(minuend, Math.abs(deltaLength));
+  }else if(deltaLength>0){
+    subtrahend = internals.prependZeros(subtrahend,deltaLength)
+  }
+  for (let i = 0; i < minuend.length; i++) {
+    difference[i] = minuend[i] - subtrahend[i];
+  }
+  difference = internals.handleDifference(difference);
+  return difference;
+};
+
 exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
   let multiplicand = null;
   let multiplier = null;
