@@ -1,6 +1,16 @@
 "use strict";
 
+const fs = require("fs");
+const path = require("path");
 const internals = {};
+
+exports.readFile = internals.readFile = function(filename){
+  const file = fs.readFileSync(
+    path.resolve(__dirname, "../assets/"+filename)
+  );
+  const data = file.toString().trim().split("\n");
+  return data
+}
 
 exports.reverse = internals.reverse = function (n) {
   let reversed = 0;
