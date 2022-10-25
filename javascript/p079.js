@@ -1,13 +1,9 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
+const helper = require("./helper");
 
 const p079Solution = function () {
-  const file = fs.readFileSync(
-    path.resolve(__dirname, "../assets/p079_keylog.txt")
-  );
-  const data = file.toString().trim().split("\n");
+  const data = helper.readFile("p079_keylog.txt").split('\n');
   const dataRemoveDuplicate = new Set();
   const digits = new Set();
   for (const s of data) {

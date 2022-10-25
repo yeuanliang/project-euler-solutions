@@ -1,7 +1,6 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
+const helper = require("./helper");
 const cardOrder = "23456789TJQKA";
 const cardRanks = "bcdefghijklmn";
 
@@ -158,19 +157,14 @@ const handleHand = function (hand) {
   return { value: rankInfo.rank + s, rankName: rankInfo.name };
 };
 const p054Solution = function () {
-  const file = fs.readFileSync(
-    path.resolve(__dirname, "../assets/p054_poker.txt")
-  );
-  const hands = file.toString().split("\n");
+  const hands = helper.readFile("p054_poker.txt").split("\n");
   let winHands = 0;
   for (const hand of hands) {
-    if (hand !== "") {
-      const cards = hand.split(" ");
-      const player1 = cards.slice(0, 5);
-      const player2 = cards.slice(5, 10);
-      if (handleHand(player1).value > handleHand(player2).value) {
-        winHands += 1;
-      }
+    const cards = hand.split(" ");
+    const player1 = cards.slice(0, 5);
+    const player2 = cards.slice(5, 10);
+    if (handleHand(player1).value > handleHand(player2).value) {
+      winHands += 1;
     }
   }
   return winHands;

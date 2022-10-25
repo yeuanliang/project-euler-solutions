@@ -1,12 +1,8 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
+const helper = require("./helper");
 
-const file = fs.readFileSync(
-  path.resolve(__dirname, "../assets/p022_names.txt")
-);
-const names = file.toString().split(",").sort();
+const names = helper.readFile('p022_names.txt').split(",").sort();
 const namesCount = names.length
 let sum = 0;
 for (let i = 0; i < namesCount; i++) {

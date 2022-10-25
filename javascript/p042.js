@@ -1,7 +1,6 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
+const helper = require('./helper');
 
 const getTriangleNumbers = function (limit) {
   const triangleNumbers = [];
@@ -29,10 +28,7 @@ const countWordValue = function (word) {
 };
 
 const p042Solution = function () {
-  const file = fs.readFileSync(
-    path.resolve(__dirname, "../assets/p042_words.txt")
-  );
-  const words = file.toString().split(",");
+  const words = helper.readFile("p042_words.txt").split(",");
   const wordsCount = words.length;
   let maxLength = 0;
   for (let i = 0; i < wordsCount; i++) {

@@ -3,8 +3,7 @@
 // the ASCII values for commonly used english letters
 // is in the range of 32 - 90 and 97 - 122.
 
-const fs = require("fs");
-const path = require("path");
+const helper = require("./helper");
 
 // https://www.mathblog.dk/project-euler-59-xor-encryption/
 // frequency analysis: https://en.wikipedia.org/wiki/Frequency_analysis
@@ -51,11 +50,8 @@ const decrypt = function (message, key) {
 };
 
 const p059Solution = function () {
-  const file = fs.readFileSync(
-    path.resolve(__dirname, "../assets/p059_cipher.txt")
-  );
-  const cipher = file
-    .toString()
+  const cipher = helper
+    .readFile("p059_cipher.txt")
     .split(",")
     .map((item) => +item);
   // a-z ascii: 0110 0001 - 0111 1010
@@ -64,16 +60,16 @@ const p059Solution = function () {
   // 95 graphic ASCII characters, 0010 0000 - 0111 1110(32-126)
   // the key consists of three lower case characters
   for (let i = 97; i <= 122; i++) {
-    for(let j=97;j<=122;j++){
-      for(let k=97;k<=122;k++){
-        let original = decrypt(cipher,[i,j,k])
-        let text = original.map((item)=>String.fromCharCode(item)).join('')
+    for (let j = 97; j <= 122; j++) {
+      for (let k = 97; k <= 122; k++) {
+        let original = decrypt(cipher, [i, j, k]);
+        let text = original.map((item) => String.fromCharCode(item)).join("");
         // https://en.wikipedia.org/wiki/Most_common_words_in_English
-        if(text.includes(' and ')){
+        if (text.includes(" and ")) {
           return {
-            sum: original.reduce((x,y)=>x+y),
-            key: [i,j,k].map((item)=>String.fromCharCode(item)).join('')
-          }
+            sum: original.reduce((x, y) => x + y),
+            key: [i, j, k].map((item) => String.fromCharCode(item)).join(""),
+          };
         }
       }
     }

@@ -1,16 +1,11 @@
 "use strict";
 
-const fs = require("fs");
-const path = require("path");
+const helper = require("./helper");
 
 // Similar to Problem 18
 const p067Solution = function () {
-  const file = fs.readFileSync(
-    path.resolve(__dirname, "../assets/p067_triangle.txt")
-  );
-  const data = file
-    .toString()
-    .trim()
+  const data = helper
+    .readFile("p067_triangle.txt")
     .split("\n")
     .map((item) => item.split(" ").map((t) => +t));
   const routes = [];
