@@ -8,7 +8,7 @@ exports.readFile = internals.readFile = function(filename){
   const file = fs.readFileSync(
     path.resolve(__dirname, "../assets/"+filename)
   );
-  const data = file.toString().trim().split("\n");
+  const data = file.toString().trim();
   return data
 }
 
