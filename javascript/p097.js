@@ -14,7 +14,20 @@ const p097Solution = function(){
     return d.slice(len-10).join('')
 }
 
-console.log(p097Solution())
+const p097Solution2 = function(){
+    const exp=7830457
+    let res=1
+    for(let i=1;i<=exp;i++){
+        res =res*2%10**10
+    }
+    return res*28433%10**10+1
+}
 
-// console.log((28433n*2n**7830457n+1n)%10n**10n)
+const p097Solution3 = function(){
+    return (28433n*2n**7830457n+1n)%10n**10n
+}
 
+
+// console.log(p097Solution())
+console.log(p097Solution2())
+// console.log(p097Solution3())
