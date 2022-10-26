@@ -14,3 +14,11 @@
 * [Continued fraction](https://en.wikipedia.org/wiki/Continued_fraction)
 * [Pell's equation](https://en.wikipedia.org/wiki/Pell%27s_equation)
 * [Partition function](https://en.wikipedia.org/wiki/Partition_function_(number_theory))
+
+## Algebra
+
+* [Methods of computing square roots](https://en.wikipedia.org/wiki/Methods_of_computing_square_roots)
+
+## papers
+
+* [square roots by subtraction](https://studylib.net/doc/7921494/square-roots-by-subtraction---jarvis--frazer)
