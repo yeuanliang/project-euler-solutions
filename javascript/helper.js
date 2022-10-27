@@ -4,13 +4,13 @@ const fs = require("fs");
 const path = require("path");
 const internals = {};
 
-exports.readFile = internals.readFile = function(filename){
+exports.readFile = internals.readFile = function (filename) {
   const file = fs.readFileSync(
-    path.resolve(__dirname, "../assets/"+filename)
+    path.resolve(__dirname, "../assets/" + filename)
   );
   const data = file.toString().trim();
-  return data
-}
+  return data;
+};
 
 exports.reverse = internals.reverse = function (n) {
   let reversed = 0;
@@ -81,28 +81,28 @@ exports.lcm = internals.lcm = function (a, b) {
 };
 
 exports.getDivisors = internals.getDivisors = function (n) {
-  let number=n
+  let number = n;
   let count = 1;
   let factorization = "";
   const bases = [];
   const exponents = [];
-  for (let i = 2; i*i<=n ; i=i+1) {
+  for (let i = 2; i * i <= n; i = i + 1) {
     if (number % i === 0) {
       let exp = 0;
       while (number % i === 0) {
         number /= i;
         exp += 1;
       }
-      bases.push(i)
-      exponents.push(exp)
+      bases.push(i);
+      exponents.push(exp);
     }
   }
   if (number > 1) {
-    bases.push(number)
-    exponents.push(1)
+    bases.push(number);
+    exponents.push(1);
   }
-  if(number===n){
-    return { count:2, factorization: 1+' * '+n, bases, exponents }
+  if (number === n) {
+    return { count: 2, factorization: 1 + " * " + n, bases, exponents };
   }
   for (let i = 0; i < bases.length; i++) {
     count *= exponents[i] + 1;
@@ -177,9 +177,9 @@ exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
       t = t.slice(1);
     }
     addend = Array.from(t, Number);
-  }else{
-    augend=[].concat(s)
-    addend=[].concat(t)
+  } else {
+    augend = [].concat(s);
+    addend = [].concat(t);
   }
   if (augend.length < addend.length) {
     [augend, addend] = [addend, augend];
@@ -195,35 +195,35 @@ exports.bigNumberSum = internals.bigNumberSum = function (s, t) {
   return result;
 };
 
-internals.handleDifference = function(array){
-  const len = array.length
-  const difference = [].concat(array)
-  while(difference[0]===0){
-    difference.shift()
-    if(difference.length===0){
-      return [0]
+internals.handleDifference = function (array) {
+  const len = array.length;
+  const difference = [].concat(array);
+  while (difference[0] === 0) {
+    difference.shift();
+    if (difference.length === 0) {
+      return [0];
     }
   }
-  if(difference.length===1){
-    return difference
+  if (difference.length === 1) {
+    return difference;
   }
-  if(difference[0]>0){
-    for(let i=len-1;i>0;i--){
-      if(difference[i]<0){
-        difference[i]+=10
-        difference[i-1]-=1
+  if (difference[0] > 0) {
+    for (let i = len - 1; i > 0; i--) {
+      if (difference[i] < 0) {
+        difference[i] += 10;
+        difference[i - 1] -= 1;
       }
     }
-  }else{
-    for(let i=len-1;i>0;i--){
-      if(difference[i]>0){
-        difference[i]-=10
-        difference[i-1]+=1
+  } else {
+    for (let i = len - 1; i > 0; i--) {
+      if (difference[i] > 0) {
+        difference[i] -= 10;
+        difference[i - 1] += 1;
       }
     }
   }
-  return difference
-}
+  return difference;
+};
 
 exports.bigNumberSub = internals.bigNumberSub = function (s, t) {
   let difference = [];
@@ -239,16 +239,16 @@ exports.bigNumberSub = internals.bigNumberSub = function (s, t) {
       t = t.slice(1);
     }
     subtrahend = Array.from(t, Number);
-  }else{
-    minuend=[].concat(s)
-    subtrahend=[].concat(t)
+  } else {
+    minuend = [].concat(s);
+    subtrahend = [].concat(t);
   }
 
   const deltaLength = minuend.length - subtrahend.length;
-  if(deltaLength<0){
+  if (deltaLength < 0) {
     minuend = internals.prependZeros(minuend, Math.abs(deltaLength));
-  }else if(deltaLength>0){
-    subtrahend = internals.prependZeros(subtrahend,deltaLength)
+  } else if (deltaLength > 0) {
+    subtrahend = internals.prependZeros(subtrahend, deltaLength);
   }
   for (let i = 0; i < minuend.length; i++) {
     difference[i] = minuend[i] - subtrahend[i];
@@ -270,9 +270,9 @@ exports.bigNumberMultiply = internals.bigNumberMultiply = function (s, t) {
       t = t.slice(1);
     }
     multiplier = Array.from(t, Number);
-  }else{
-    multiplicand = [].concat(s)
-    multiplier=[].concat(t)
+  } else {
+    multiplicand = [].concat(s);
+    multiplier = [].concat(t);
   }
   let product = Array.from(
     { length: multiplier.length + multiplicand.length - 1 },
@@ -356,6 +356,10 @@ exports.hasSameDigits = internals.hasSameDigits = function (a, b) {
   );
 };
 
+exports.hasDuplicateDigit = internals.hasDuplicateDigit = function (a) {
+  return new Set((a + "").split("")).size !== (a + "").length;
+};
+
 exports.getPythagoreanTriplet = internals.getPythagoreanTriplet = function (p) {
   // gcd(m, n) = 1, m > n
   // a = m * m - n * n
@@ -417,7 +421,7 @@ internals.customFractional = function (numerator, s) {
   return [integerPart, newNumerator, denominator];
 };
 
-exports.findContinuedFraction=internals.findContinuedFraction = function (n) {
+exports.findContinuedFraction = internals.findContinuedFraction = function (n) {
   const fractionalParts = [];
   const result = [0, []];
   const start = internals.sqrt(n);
@@ -451,10 +455,10 @@ exports.totient = internals.totient = function (n) {
   return count;
 };
 
-exports.countProperFractions =internals.countProperFractions = function(d){
-  let count = 0
-  for(let i=2;i<=d;i++){
-      count += internals.totient(i)
+exports.countProperFractions = internals.countProperFractions = function (d) {
+  let count = 0;
+  for (let i = 2; i <= d; i++) {
+    count += internals.totient(i);
   }
-  return count
-}
+  return count;
+};
