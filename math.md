@@ -19,6 +19,10 @@
 
 * [Methods of computing square roots](https://en.wikipedia.org/wiki/Methods_of_computing_square_roots)
 
+## Combinatorics
+
+* [Bell number](https://en.wikipedia.org/wiki/Bell_number)
+
 ## papers
 
 * [square roots by subtraction](https://studylib.net/doc/7921494/square-roots-by-subtraction---jarvis--frazer)
