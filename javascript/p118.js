@@ -270,19 +270,19 @@ const countSets4 = function () {
 }
 
 // count sets include 5-digit prime
-const countSets5 = function(){
+const countSets5 = function () {
   let count = 0
   // 5+4, 5+1+1+1+1
   for (let i = 0; i < primes5.length; i++) {
-    let r=remainDigits(primes5[i]+'')
-    if(r==='2357'){
-      count+=1
+    let r = remainDigits(primes5[i] + '')
+    if (r === '2357') {
+      count += 1
     }
     for (let j = 0; j < primes4.length; j++) {
       if (hasCommonDigit(primes5[i], primes4[j])) {
         continue
       }
-      count+=1
+      count += 1
     }
   }
   // 5+3+1
@@ -306,16 +306,16 @@ const countSets5 = function(){
       }
       let t52 = primes5[i] + '' + primes2[j]
       let r = remainDigits(t52)
-      if (r === '23' || r === '27' || r === '25' || r === '35'|| r === '37'|| r === '57') {
+      if (r === '23' || r === '27' || r === '25' || r === '35' || r === '37' || r === '57') {
         count++
       }
-      for (let k = j+1; k < primes2.length; k++) {
+      for (let k = j + 1; k < primes2.length; k++) {
         if (hasCommonDigit(primes5[i], primes2[k]) || hasCommonDigit(primes2[j], primes2[k])) {
           continue
         }
-          // console.log(primes5[i], primes2[j], primes2[k])
-          count++
-        
+        // console.log(primes5[i], primes2[j], primes2[k])
+        count++
+
       }
     }
   }
@@ -323,19 +323,19 @@ const countSets5 = function(){
 }
 
 // count sets include 6-digit prime
-const countSets6 = function(){
+const countSets6 = function () {
   let count = 0
   // 6+3, 6+1+1+1
   for (let i = 0; i < primes6.length; i++) {
-    let r=remainDigits(primes6[i]+'')
-    if(r==='235'||r=='237'||r==='257'||r==='357'){
-      count+=1
+    let r = remainDigits(primes6[i] + '')
+    if (r === '235' || r == '237' || r === '257' || r === '357') {
+      count += 1
     }
     for (let j = 0; j < primes3.length; j++) {
       if (hasCommonDigit(primes6[i], primes3[j])) {
         continue
       }
-      count+=1
+      count += 1
     }
   }
   // 6+2+1
@@ -355,32 +355,32 @@ const countSets6 = function(){
 }
 
 // count sets include 7-digit prime
-const countSets7 = function(){
+const countSets7 = function () {
   let count = 0
   // 7+2, 7+1+1
   for (let i = 0; i < primes7.length; i++) {
-    let r=remainDigits(primes7[i]+'')
-    if(r==='23'||r=='27'||r==='25'||r==='35'||r==='37'||r==='57'){
-      count+=1
+    let r = remainDigits(primes7[i] + '')
+    if (r === '23' || r == '27' || r === '25' || r === '35' || r === '37' || r === '57') {
+      count += 1
     }
     for (let j = 0; j < primes2.length; j++) {
       if (hasCommonDigit(primes7[i], primes2[j])) {
         continue
       }
-      count+=1
+      count += 1
     }
   }
   return count
 }
 
 // count sets include 8-digit prime
-const countSets8 = function(){
+const countSets8 = function () {
   let count = 0
   // 8+1
   for (let i = 0; i < primes8.length; i++) {
-    let r=remainDigits(primes8[i]+'')
-    if(r==='3'||r=='7'||r==='2'||r==='5'){
-      count+=1
+    let r = remainDigits(primes8[i] + '')
+    if (r === '3' || r == '7' || r === '2' || r === '5') {
+      count += 1
     }
   }
   return count
@@ -499,10 +499,84 @@ const p118Solution = function () {
   return count
 };
 
-// const p118Solution2 = function(){
-//   let count=0
-//   count+=countSets2()+countSets3()+countSets4()+countSets5()+countSets6()+countSets7()+countSets8()
-//   return count
-// }
+console.log(p118Solution())
 
-// console.log(p118Solution2());
+const p118Solution2 = function(){
+  let count=0
+  count+=countSets2()+countSets3()+countSets4()+countSets5()+countSets6()+countSets7()+countSets8()
+  return count
+}
+
+console.log(p118Solution2());
+
+const p118Solution3 = function () {
+  const digits = [0, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+  let count = 0
+  const generateSets = function (number, last, left) {
+    if (last != -1 && number > last) return;
+    if (left == 0) {
+      if (helper.isPrime(number)) {
+        count++;
+      }
+      return;
+    }
+    for (let i = 1; i < 10; i++) {
+      if (digits[i]) {
+        digits[i] = 0;
+        generateSets(number * 10 + i, last, left - 1);
+        digits[i] = 1;
+      }
+    }
+    if (helper.isPrime(number)) {
+      generateSets(0, number, left);
+    }
+  }
+  generateSets(0, -1, 9)
+  return count
+}
+console.log(p118Solution3())
+
+const p118Solution4 = function(){
+  const digitsFilled = [0,0,0,0,0,0,0,0,0,0]
+  const partNumbers = [0,0,0,0,0,0,0,0,0,0,0]
+  let count = 0
+  const sets=[]
+  const fillit = function(position){
+    let allDone=0
+    if(partNumbers[position]===0){
+      allDone=1
+      let i=1;
+      while(i<=9&&allDone===1){
+        if(digitsFilled[i]===0){
+          allDone=0
+        }
+        i++
+      }
+      if(allDone===1){
+        sets.push([].concat(partNumbers))
+        count++
+        return
+      }
+    }
+    for(let i=1;i<=9;i++){
+      if(digitsFilled[i]===0){
+        partNumbers[position]=partNumbers[position]*10+i
+        digitsFilled[i]=1
+        if(partNumbers[position]>partNumbers[position-1]){
+          if(helper.isPrime(partNumbers[position])){
+            fillit(position+1)
+          }
+          fillit(position)
+        }else{
+          fillit(position)
+        }
+        partNumbers[position]=Math.floor(partNumbers[position]/10)
+        digitsFilled[i]=0
+      }
+    }
+  }
+  fillit(1)
+  return count
+}
+
+console.log(p118Solution4())
