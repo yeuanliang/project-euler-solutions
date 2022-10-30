@@ -16,7 +16,7 @@ const p139Solution = function () {
           break;
         }
         let d = Math.abs(a - b);
-        if (helper.gcd(a, b) === 1 && (a % d === 0 || b % d === 0)) {
+        if (helper.gcd(a, b) === 1 && (c % d === 0)) {
           let k = 1;
           while (k * (a + b + c) < limit) {
             count += 1;
