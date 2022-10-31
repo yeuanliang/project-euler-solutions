@@ -24,8 +24,8 @@ const countSolutions = function (n) {
 };
 
 const count = function (m) {
-//   let cuboids=[]
-  let count=0
+  //   let cuboids=[]
+  let count = 0;
   for (let i = 1; i < m; i++) {
     for (let j = i + 1; j < m; j++) {
       if (helper.gcd(i, j) !== 1) {
@@ -41,16 +41,16 @@ const count = function (m) {
       }
       let k = 1;
       while (k * s <= m && k * t <= 2 * m) {
-        for (let a = 1; a <= Math.floor(k*t/2); a++) {
-          if (k * s >= a && k * s >= k * t - a) {
+        for (let a = 1; a <= Math.floor((k * t) / 2); a++) {
+          if (k * s >= k * t - a) {
             // cuboids.push(a + " " + (k * t - a) + " " + k * s);
-            count++
+            count++;
           }
         }
         if (k * t <= m) {
           for (let a = 1; a <= Math.floor((k * s) / 2); a++) {
             // cuboids.push(a + " " + (k * s - a) + " " + k * t);
-            count++
+            count++;
           }
         }
         k++;
@@ -63,13 +63,16 @@ const count = function (m) {
 const p086Solution = function () {
   let target = 1000000;
   let start = 100;
-  while (count(start) <= target) {
-    start+=20;
+  let step = 1000;
+  while (step > 0) {
+    if (count(start) > target) {
+      step = Math.floor(step / 2);
+      start -= step;
+    } else {
+      start += step;
+    }
   }
-  while (count(start) > target) {
-    start--;
-  }
-  return start+1;
+  return start;
 };
 
-console.log(p086Solution())
+console.log(p086Solution());
