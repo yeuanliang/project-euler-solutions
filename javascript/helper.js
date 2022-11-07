@@ -356,6 +356,12 @@ exports.hasSameDigits = internals.hasSameDigits = function (a, b) {
   );
 };
 
+exports.hasSameLetters = internals.hasSameLetters = function (a, b) {
+  return (
+    a.split("").sort().join("") === b.split("").sort().join("")
+  );
+};
+
 exports.hasDuplicateDigit = internals.hasDuplicateDigit = function (a) {
   return new Set((a + "").split("")).size !== (a + "").length;
 };
