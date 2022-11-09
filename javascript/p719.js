@@ -1,6 +1,9 @@
 "use strict";
 
 // time cost: 8min8sec
+// time cost: 1min56sec
+// time cost: 1.1sec
+// https://oeis.org/A038206
 
 const findCombinations = function (s, combinations, substring = []) {
   if (!s) {
@@ -14,6 +17,7 @@ const findCombinations = function (s, combinations, substring = []) {
     substring.pop();
   }
 };
+
 const findAllCombinations = function (s) {
   if (!s) {
     return [];
@@ -22,7 +26,6 @@ const findAllCombinations = function (s) {
   findCombinations(s, combinations);
   return combinations;
 };
-
 
 const isSNumber = function (square, root) {
   const combinations = findAllCombinations(square + "");
@@ -69,12 +72,47 @@ const isS = function (square, root) {
 const p719Solution = function (limit) {
   let sum = 0;
   let r = Math.floor(Math.sqrt(limit));
-  for (let i = 2; i <= r; i++) {
-    if (isS(i * i, i)) {
-      sum += i * i;
+  for (let i = 9; i <= 10; i++) {
+    for (let j = i; j <= r; j += 9) {
+      if (isS(j * j, j)) {
+        sum += j * j;
+      }
     }
   }
   return sum;
 };
 
-console.log(p719Solution(10 ** 12));
+const check = function (s, n) {
+  if (s === n) {
+    return true;
+  } else if (s < n) {
+    return false;
+  } else {
+    let b = 10;
+    while (b < s) {
+      if (check(Math.floor(s / b), n - (s % b))) {
+        return true;
+      }
+      b *= 10;
+    }
+    return false;
+  }
+};
+
+const p719Solution2 = function (limit) {
+  let sum = 0;
+  const t = Date.now();
+  let r = Math.floor(Math.sqrt(limit));
+  for (let i = 9; i <= 10; i++) {
+    for (let j = i; j <= r; j += 9) {
+      if (check(j * j, j)) {
+        sum += j * j;
+      }
+    }
+  }
+  console.log(Date.now() - t);
+  return sum;
+};
+
+// console.log(p719Solution(10 ** 12));
+console.log(p719Solution2(10 ** 12));
