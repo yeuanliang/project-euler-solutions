@@ -75,6 +75,20 @@ exports.gcd = internals.gcd = function (a, b) {
   }
 };
 
+exports.exgcd = internals.exgcd = function (a, b) {
+  if (a < b) [a,b] = [b, a];
+    let s = 0, old_s = 1;
+    let t = 1, old_t = 0;
+    let r = b, old_r = a;
+    while (r != 0) {
+        let q = Math.floor(old_r/r);
+        [r, old_r] = [old_r - q*r, r];
+        [s, old_s] = [old_s - q*s, s];
+        [t, old_t] = [old_t - q*t, t];
+    }
+    return [old_s, old_t]
+};
+
 exports.lcm = internals.lcm = function (a, b) {
   // least common multiple
   return (a * b) / internals.gcd(a, b);
@@ -357,9 +371,7 @@ exports.hasSameDigits = internals.hasSameDigits = function (a, b) {
 };
 
 exports.hasSameLetters = internals.hasSameLetters = function (a, b) {
-  return (
-    a.split("").sort().join("") === b.split("").sort().join("")
-  );
+  return a.split("").sort().join("") === b.split("").sort().join("");
 };
 
 exports.hasDuplicateDigit = internals.hasDuplicateDigit = function (a) {
