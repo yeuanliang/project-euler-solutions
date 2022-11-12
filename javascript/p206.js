@@ -18,12 +18,18 @@ const check = function (n) {
   }
 };
 const p206Solution = function () {
-  const start = Math.floor(10*Math.sqrt(102030405060708));
-  const end = Math.floor(Math.sqrt(2)*10**8);
-  for (let i = BigInt(start+1); i < BigInt(end); i++) {
+  const start = Math.floor(10 * Math.sqrt(102030405060708));
+  const end = Math.floor(Math.sqrt(2) * 10 ** 8);
+  let i = BigInt(end) + 1n; //141421357
+  while (i > BigInt(start)) {
     let s = i * i;
     if (check(s)) {
       return i * 10n;
+    }
+    if (i % 10n === 7n) {
+      i -= 4n;
+    } else {
+      i -= 6n;
     }
   }
 };
