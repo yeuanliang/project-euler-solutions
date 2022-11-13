@@ -28,6 +28,12 @@ const ss = function (n) {
 
 const mod = function (a, b, c) {
   let r = 0n;
+  if(b>=p-1n){
+    b=b%(p-1n)
+  }
+  if(c>=p){
+    c=c%p
+  }
   if (b < 9n) {
     r = a * 10n ** b - c;
   } else if (b >= 9 && b < p - 1n) {
@@ -39,8 +45,6 @@ const mod = function (a, b, c) {
     if (r < 0n) {
       r = p + r;
     }
-  } else {
-    return mod(a, b % (p - 1n), c);
   }
   return r;
 };
