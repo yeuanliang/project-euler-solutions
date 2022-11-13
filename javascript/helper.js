@@ -496,3 +496,17 @@ exports.modPower = internals.modPower = function (a, b, p) {
   }
   return ans;
 };
+
+exports.modularInverse = internals.modularInverse = function(a,p){
+  return internals.modPower(a,p-2n,p)
+}
+
+exports.qpow = internals.qpow = function(base, exp) {
+  let res = 1;
+  while (exp) {
+      if (exp & 1) res *= base;
+      base *= base;
+      exp >>= 1;
+  }
+  return res;
+}
