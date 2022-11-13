@@ -480,3 +480,19 @@ exports.countProperFractions = internals.countProperFractions = function (d) {
   }
   return count;
 };
+
+exports.modPower = internals.modPower = function (a, b, p) {
+  let ans = 1n;
+  let exp = b;
+  if (exp >= p - 1n) {
+    exp = exp % (p - 1n);
+  }
+  while (exp) {
+    if (exp & 1n) {
+      ans = (ans * a) % p;
+    }
+    a = (a * a) % p;
+    exp >>= 1n;
+  }
+  return ans;
+};
