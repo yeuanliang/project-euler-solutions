@@ -9,17 +9,19 @@ const m = 10n ** 8n;
 
 const p743Solution = function () {
   let r = helper.modPower(2n, n, p);
-  let rr = helper.modPower(2n, m, p);
-  let last = 1n;
+  let rr = helper.modPower(2n, 2n * m * (p - 2n), p);
+  let last = r;
   for (let i = 1n; i <= m / 2n; i++) {
     let inv = helper.exgcd(Number((i * i) % p), Number(p))[1];
     if (inv < 0) {
       inv += Number(p);
     }
     let current =
-      (last * ((((m - 2n * i + 2n) * (m - 2n * i + 1n)) % p) * BigInt(inv))) %
+      (last *
+        ((((m - 2n * i + 2n) * (m - 2n * i + 1n)) % p) * BigInt(inv)) *
+        rr) %
       p;
-    r += (current * helper.modPower(rr, 10n ** 8n - 2n * i, p)) % p;
+    r += current;
     last = current;
   }
   return r % p;
