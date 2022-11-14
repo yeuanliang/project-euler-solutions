@@ -76,17 +76,20 @@ exports.gcd = internals.gcd = function (a, b) {
 };
 
 exports.exgcd = internals.exgcd = function (a, b) {
-  if (a < b) [a,b] = [b, a];
-    let s = 0, old_s = 1;
-    let t = 1, old_t = 0;
-    let r = b, old_r = a;
-    while (r != 0) {
-        let q = Math.floor(old_r/r);
-        [r, old_r] = [old_r - q*r, r];
-        [s, old_s] = [old_s - q*s, s];
-        [t, old_t] = [old_t - q*t, t];
-    }
-    return [old_s, old_t]
+  if (a < b) [a, b] = [b, a];
+  let s = 0,
+    old_s = 1;
+  let t = 1,
+    old_t = 0;
+  let r = b,
+    old_r = a;
+  while (r != 0) {
+    let q = Math.floor(old_r / r);
+    [r, old_r] = [old_r - q * r, r];
+    [s, old_s] = [old_s - q * s, s];
+    [t, old_t] = [old_t - q * t, t];
+  }
+  return [old_s, old_t];
 };
 
 exports.lcm = internals.lcm = function (a, b) {
@@ -128,10 +131,56 @@ exports.getDivisors = internals.getDivisors = function (n) {
   return { count, factorization, bases, exponents };
 };
 
+exports.primeFactorization = internals.primeFactorization = function (n) {
+  const bases = [];
+  const exponents = [];
+  for (let i = 2; i * i <= n; i++) {
+    if (n % i == 0) {
+      let count = 0;
+      while (n % i == 0) {
+        n /= i;
+        count += 1;
+      }
+      bases.push(i);
+      exponents.push(count);
+    }
+  }
+  if (n > 1) {
+    bases.push(n);
+    exponents.push(1);
+  }
+  return { bases, exponents };
+};
+
+exports.genDivisors = internals.genDivisors = function (n) {
+  const { bases, exponents } = internals.primeFactorization(n);
+  let i = 0;
+  let temp = [];
+  let divisors = [1];
+  while (i < bases.length) {
+    for (let j = 0; j <= exponents[i]; j++) {
+      for (let k = 0; k < divisors.length; k++) {
+        temp.push(divisors[k] * bases[i] ** j);
+      }
+    }
+    divisors = temp;
+    temp = [];
+    i++;
+  }
+  return divisors;
+};
+
+exports.countDivisors = internals.countDivisors = function (n) {
+  let count = 1;
+  const { bases, exponents } = internals.primeFactorization(n);
+  for (let i = 0; i < bases.length; i++) {
+    count *= exponents[i] + 1;
+  }
+  return count;
+};
+
 exports.sumOfDivisors = internals.sumOfDivisors = function (n) {
-  const divisorsInfo = internals.getDivisors(n);
-  const primes = divisorsInfo.bases;
-  const exponents = divisorsInfo.exponents;
+  const { primes, exponents } = internals.primeFactorization(n);
   let sum = 1;
   for (let i = 0; i < primes.length; i++) {
     sum *= (primes[i] ** (exponents[i] + 1) - 1) / (primes[i] - 1);
@@ -497,16 +546,16 @@ exports.modPower = internals.modPower = function (a, b, p) {
   return ans;
 };
 
-exports.modularInverse = internals.modularInverse = function(a,p){
-  return internals.modPower(a,p-2n,p)
-}
+exports.modularInverse = internals.modularInverse = function (a, p) {
+  return internals.modPower(a, p - 2n, p);
+};
 
-exports.qpow = internals.qpow = function(base, exp) {
+exports.qpow = internals.qpow = function (base, exp) {
   let res = 1;
   while (exp) {
-      if (exp & 1) res *= base;
-      base *= base;
-      exp >>= 1;
+    if (exp & 1) res *= base;
+    base *= base;
+    exp >>= 1;
   }
   return res;
-}
+};
