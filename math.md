@@ -14,6 +14,7 @@
 * [Continued fraction](https://en.wikipedia.org/wiki/Continued_fraction)
 * [Pell's equation](https://en.wikipedia.org/wiki/Pell%27s_equation)
 * [Partition function](https://en.wikipedia.org/wiki/Partition_function_(number_theory))
+* [Montgomery modular multiplication](https://en.wikipedia.org/wiki/Montgomery_modular_multiplication)
 
 ## Algebra
 
