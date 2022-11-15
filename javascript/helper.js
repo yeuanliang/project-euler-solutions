@@ -99,7 +99,7 @@ exports.exgcd = internals.exgcd = function (a, b) {
 
 exports.extgcd = internals.extgcd = function (a, b) {
   if (a < b) {
-    let tmp = extgcd(b, a);
+    let tmp = internals.extgcd(b, a);
     return { gcd: tmp.gcd, x: tmp.y, y: tmp.x };
   }
 
@@ -108,7 +108,7 @@ exports.extgcd = internals.extgcd = function (a, b) {
   }
 
   let r = a % b;
-  let tmp = extgcd(b, r);
+  let tmp = internals.extgcd(b, r);
 
   return { gcd: tmp.gcd, x: tmp.y, y: tmp.x - Math.floor(a / b) * tmp.y };
 };
