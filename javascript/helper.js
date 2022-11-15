@@ -76,7 +76,9 @@ exports.gcd = internals.gcd = function (a, b) {
 };
 
 exports.exgcd = internals.exgcd = function (a, b) {
-  if (a < b) [a, b] = [b, a];
+  if (a < b) {
+    [a, b] = [b, a];
+  }
   let s = 0,
     old_s = 1;
   let t = 1,
@@ -89,7 +91,26 @@ exports.exgcd = internals.exgcd = function (a, b) {
     [s, old_s] = [old_s - q * s, s];
     [t, old_t] = [old_t - q * t, t];
   }
+  // Bézout coefficients: (old_s, old_t)
+  // gcd: old_r
+  // quotients by the gcd: (t, s)
   return [old_s, old_t];
+};
+
+exports.extgcd = internals.extgcd = function (a, b) {
+  if (a < b) {
+    let tmp = extgcd(b, a);
+    return { gcd: tmp.gcd, x: tmp.y, y: tmp.x };
+  }
+
+  if (b === 0) {
+    return { gcd: a, x: 1, y: 0 };
+  }
+
+  let r = a % b;
+  let tmp = extgcd(b, r);
+
+  return { gcd: tmp.gcd, x: tmp.y, y: tmp.x - Math.floor(a / b) * tmp.y };
 };
 
 exports.lcm = internals.lcm = function (a, b) {
