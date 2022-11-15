@@ -580,3 +580,35 @@ exports.qpow = internals.qpow = function (base, exp) {
   }
   return res;
 };
+
+exports.calculateCombinatorial = internals.calculateCombinatorial = function (
+  n,
+  r
+) {
+  if (r > n / 2) {
+    r = n - r;
+  }
+  if (r === 0 || r === n) {
+    return [1];
+  }
+  let numerators = [];
+  let denominators = [];
+  for (let i = 0; i < r; i++) {
+    let gcd = internals.gcd(n - i, r - i);
+    numerators.push((n - i) / gcd);
+    denominators.push((r - i) / gcd);
+  }
+  for (let i = 0; i < r; i++) {
+    for (let j = 0; j < r; j++) {
+      if (numerators[i] === 1) {
+        continue;
+      }
+      let gcd = internals.gcd(numerators[i], denominators[j]);
+      if (gcd > 1) {
+        numerators[i] /= gcd;
+        denominators[j] /= gcd;
+      }
+    }
+  }
+  return numerators;
+};
