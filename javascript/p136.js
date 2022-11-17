@@ -17,7 +17,7 @@ const isSingleton = function (n) {
       let k = diff / 2;
       let d = sum / 4;
       if (d > k && k !== 0) {
-        count += 2;
+        return false
       } else {
         count += 1;
       }
@@ -44,3 +44,36 @@ const p136Solution = function (limit) {
 };
 
 console.log(p136Solution(5 * 10 ** 7));
+
+// time cost: 29sec
+// let x = a+d, y = d, and z = a-d, we get x2 - y2 - z2 = a(4d-a) = n.
+// let n = uv, such that u = a and v = 4d-a, so u + v = a + 4d-a = 4d.
+// n will have a unique solution iff n = 4, 16, p≡-1 mod 4, 4p, 16p (where p is an odd prime).
+const p136Solution2 = function (limit) {
+  let count = 0;
+  for (let i = 1; i < limit; i++) {
+    if (i === 4 || i === 16) {
+      count++;
+    }
+    if (helper.isPrime(i)) {
+      if ((i + 1) % 4 === 0) {
+        if (limit / i > 16) {
+          count += 3;
+        } else if (limit / i > 4) {
+          count += 2;
+        } else {
+          count++;
+        }
+      } else if (i !== 2) {
+        if (limit / i > 16) {
+          count += 2;
+        } else if (limit / i > 4) {
+          count += 1;
+        }
+      }
+    }
+  }
+  return count;
+};
+
+// console.log(p136Solution2(5 * 10 ** 7));
