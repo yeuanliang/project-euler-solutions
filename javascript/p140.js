@@ -7,9 +7,9 @@
 // xn+1 = - 9 ⁢xn - 4 ⁢yn - 14 ⁢
 // yn+1 = - 20 ⁢xn - 9 ⁢yn - 28 ⁢
 const helper = require("./helper");
-const equationSolver = function(x, startx, starty){
-    let x1 = startx
-    let y1 = starty
+const equationSolver = function(x, startX, startY){
+    let x1 = startX
+    let y1 = startY
     const solutions = []
     while(solutions.length!= x){
         let xn = -9n*x1 -4n*y1 - 14n
@@ -41,7 +41,7 @@ const p140Solution = function () {
     return sum
 };
 
-// console.log(p140Solution());
+console.log(p140Solution());
 
 const p140Solution2 = function(){
     const a = helper.findContinuedFraction(5)
@@ -53,7 +53,6 @@ const p140Solution2 = function(){
             h[i]=BigInt(a[1][0])*h[i-1]+h[i-2]
             k[i]=BigInt(a[1][0])*k[i-1]+k[i-2]
         }
-        // x, y : [0,-1],[0,1],[2,7],[2,-7],[-3,2],[-3,-2],[-4,-5],[-4,5]
         // 5A+7,y : [8,2],[13,5],[43,19]
         if(h[i]*h[i]-5n*k[i]*k[i]===1n){
             let x1= 8n*h[i]-10n*k[i]
@@ -89,11 +88,10 @@ const p140Solution2 = function(){
     for(let i=0;i<30;i++){
         sum+=s[i]
     }
-    console.log(s)
     return sum
 }
 
-console.log(p140Solution2())
+// console.log(p140Solution2())
 
 //   2n,
 //   5n,
