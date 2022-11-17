@@ -1,8 +1,12 @@
 "use strict";
 
 // https://en.wikipedia.org/wiki/Fibonacci_number
-// x = A * (1 - x - x ^ 2);
-// x = (5 * A ^ 2 + 2 * A + 1) ^ 0.5 - A - 1 / (2 * A));
+// x = A * (1 - x - x^2);
+// x = (5 * A^2 + 2 * A + 1)^0.5 - A - 1 / (2 * A));
+// y * y = (2 * A)^2 + (A + 1)^2
+// k-th golden nugget , x = F(2 * k)/F(2 * k + 1), then A = F(2 * k) * F(2 * k + 1)
+// Nugget(n) = Nugget(n-1) * 7 - Nugget(n-2) + 1
+// https://oeis.org/A081018, Pell's equation x^2 - 5 * y^2 = -4
 
 const p137Solution = function (k) {
   const fibonnaciNumbers = [0, 1]; 
