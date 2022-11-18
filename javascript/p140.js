@@ -43,6 +43,7 @@ const p140Solution = function () {
 
 console.log(p140Solution());
 
+// http://www.numbertheory.org/php/patz.html
 const p140Solution2 = function(){
     const a = helper.findContinuedFraction(5)
     const h = [BigInt(a[0]),BigInt(a[0])*BigInt(a[1][0])+1n]
@@ -53,7 +54,7 @@ const p140Solution2 = function(){
             h[i]=BigInt(a[1][0])*h[i-1]+h[i-2]
             k[i]=BigInt(a[1][0])*k[i-1]+k[i-2]
         }
-        // 5A+7,y : [8,2],[13,5],[43,19]
+        // 5A+7,y : [8,2],[13,5],[7,1]
         if(h[i]*h[i]-5n*k[i]*k[i]===1n){
             let x1= 8n*h[i]-10n*k[i]
             if(x1-7n>0n&&(x1-7n)%5n===0n){
@@ -71,11 +72,11 @@ const p140Solution2 = function(){
             if(x4-7n>0n&&(x4-7n)%5n===0n){
                 solutions.add((x4-7n)/5n)
             }
-            let x5= 43n*h[i]+95n*k[i]
+            let x5= 7n*h[i]+5n*k[i]
             if(x5-7n>0n&&(x5-7n)%5n===0n){
                 solutions.add((x5-7n)/5n)
             }
-            let x6= 43n*h[i]-95n*k[i]
+            let x6= 7n*h[i]-5n*k[i]
             if(x6-7n>0n&&(x6-7n)%5n===0n){
                 solutions.add((x6-7n)/5n)
             }
