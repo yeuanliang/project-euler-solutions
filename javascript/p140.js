@@ -7,90 +7,93 @@
 // xn+1 = - 9 ⁢xn - 4 ⁢yn - 14 ⁢
 // yn+1 = - 20 ⁢xn - 9 ⁢yn - 28 ⁢
 const helper = require("./helper");
-const equationSolver = function(x, startX, startY){
-    let x1 = startX
-    let y1 = startY
-    const solutions = []
-    while(solutions.length!= x){
-        let xn = -9n*x1 -4n*y1 - 14n
-        let yn = -20n*x1 -9n*y1 - 28n
-        if (xn > 0n){
-            solutions.push((xn))
-        }
-        x1 = xn
-        y1 = yn
+const equationSolver = function (x, startX, startY) {
+  let x1 = startX;
+  let y1 = startY;
+  const solutions = [];
+  while (solutions.length != x) {
+    let xn = -9n * x1 - 4n * y1 - 14n;
+    let yn = -20n * x1 - 9n * y1 - 28n;
+    if (xn > 0n) {
+      solutions.push(xn);
     }
-    return solutions
-}
+    x1 = xn;
+    y1 = yn;
+  }
+  return solutions;
+};
 const p140Solution = function () {
-    const solutions = new Set()
-    equationSolver(10n,0n,1n).forEach(item=>solutions.add(item))
-    equationSolver(10n,0n,-1n).forEach(item=>solutions.add(item))
-    equationSolver(10n,-3n,-2n).forEach(item=>solutions.add(item))
-    equationSolver(10n,-3n,2n).forEach(item=>solutions.add(item))
-    equationSolver(10n,-4n,-5n).forEach(item=>solutions.add(item))
-    equationSolver(10n,-4n,5n).forEach(item=>solutions.add(item))
-    equationSolver(10n,2n,-7n).forEach(item=>solutions.add(item))
-    equationSolver(10n,2n,7n).forEach(item=>solutions.add(item))
-    const s = new Array(...solutions)
-    s.sort((a,b)=> {return (Number(a)-Number(b))})
-    let sum=0n
-    for(let i=0;i<30;i++){
-        sum +=s[i]
-    }
-    return sum
+  const solutions = new Set();
+  equationSolver(10n, 0n, 1n).forEach((item) => solutions.add(item));
+  equationSolver(10n, 0n, -1n).forEach((item) => solutions.add(item));
+  equationSolver(10n, -3n, -2n).forEach((item) => solutions.add(item));
+  equationSolver(10n, -3n, 2n).forEach((item) => solutions.add(item));
+  equationSolver(10n, -4n, -5n).forEach((item) => solutions.add(item));
+  equationSolver(10n, -4n, 5n).forEach((item) => solutions.add(item));
+  equationSolver(10n, 2n, -7n).forEach((item) => solutions.add(item));
+  equationSolver(10n, 2n, 7n).forEach((item) => solutions.add(item));
+  const s = new Array(...solutions);
+  s.sort((a, b) => {
+    return Number(a) - Number(b);
+  });
+  let sum = 0n;
+  for (let i = 0; i < 30; i++) {
+    sum += s[i];
+  }
+  return sum;
 };
 
 console.log(p140Solution());
 
 // http://www.numbertheory.org/php/patz.html
-const p140Solution2 = function(){
-    const a = helper.findContinuedFraction(5)
-    const h = [BigInt(a[0]),BigInt(a[0])*BigInt(a[1][0])+1n]
-    const k = [1n,BigInt(a[1][0])]
-    const solutions = new Set()
-    for(let i=1;i<31;i++){
-        if(i>1){
-            h[i]=BigInt(a[1][0])*h[i-1]+h[i-2]
-            k[i]=BigInt(a[1][0])*k[i-1]+k[i-2]
-        }
-        // 5A+7,y : [8,2],[13,5],[7,1]
-        if(h[i]*h[i]-5n*k[i]*k[i]===1n){
-            let x1= 8n*h[i]-10n*k[i]
-            if(x1-7n>0n&&(x1-7n)%5n===0n){
-                solutions.add((x1-7n)/5n)
-            }
-            let x2= 8n*h[i]+10n*k[i]
-            if(x2-7n>0n&&(x2-7n)%5n===0n){
-                solutions.add((x2-7n)/5n)
-            }
-            let x3= 13n*h[i]+25n*k[i]
-            if(x3-7n>0n&&(x3-7n)%5n===0n){
-                solutions.add((x3-7n)/5n)
-            }
-            let x4= 13n*h[i]-25n*k[i]
-            if(x4-7n>0n&&(x4-7n)%5n===0n){
-                solutions.add((x4-7n)/5n)
-            }
-            let x5= 7n*h[i]+5n*k[i]
-            if(x5-7n>0n&&(x5-7n)%5n===0n){
-                solutions.add((x5-7n)/5n)
-            }
-            let x6= 7n*h[i]-5n*k[i]
-            if(x6-7n>0n&&(x6-7n)%5n===0n){
-                solutions.add((x6-7n)/5n)
-            }
-            
-        }
+const p140Solution2 = function () {
+  const a = helper.findContinuedFraction(5);
+  const h = [BigInt(a[0]), BigInt(a[0]) * BigInt(a[1][0]) + 1n];
+  const k = [1n, BigInt(a[1][0])];
+  const solutions = new Set();
+  for (let i = 1; i < 31; i++) {
+    if (i > 1) {
+      h[i] = BigInt(a[1][0]) * h[i - 1] + h[i - 2];
+      k[i] = BigInt(a[1][0]) * k[i - 1] + k[i - 2];
     }
-    const s = new Array(...solutions)
-    s.sort((a,b)=>{return Number(a)-Number(b)})
-    let sum=0n
-    for(let i=0;i<30;i++){
-        sum+=s[i]
+    // 5A+7,y : [8,2],[13,5],[7,1]
+    if (h[i] * h[i] - 5n * k[i] * k[i] === 1n) {
+      let x1 = 8n * h[i] - 10n * k[i];
+      if (x1 - 7n > 0n && (x1 - 7n) % 5n === 0n) {
+        solutions.add((x1 - 7n) / 5n);
+      }
+      let x2 = 8n * h[i] + 10n * k[i];
+      if (x2 - 7n > 0n && (x2 - 7n) % 5n === 0n) {
+        solutions.add((x2 - 7n) / 5n);
+      }
+      let x3 = 13n * h[i] + 25n * k[i];
+      if (x3 - 7n > 0n && (x3 - 7n) % 5n === 0n) {
+        solutions.add((x3 - 7n) / 5n);
+      }
+      let x4 = 13n * h[i] - 25n * k[i];
+      if (x4 - 7n > 0n && (x4 - 7n) % 5n === 0n) {
+        solutions.add((x4 - 7n) / 5n);
+      }
+      let x5 = 7n * h[i] + 5n * k[i];
+      if (x5 - 7n > 0n && (x5 - 7n) % 5n === 0n) {
+        solutions.add((x5 - 7n) / 5n);
+      }
+      let x6 = 7n * h[i] - 5n * k[i];
+      if (x6 - 7n > 0n && (x6 - 7n) % 5n === 0n) {
+        solutions.add((x6 - 7n) / 5n);
+      }
     }
-    return sum
-}
+  }
+  const s = new Array(...solutions);
+  s.sort((a, b) => {
+    return Number(a) - Number(b);
+  });
+  let sum = 0n;
+  for (let i = 0; i < 30; i++) {
+    sum += s[i];
+  }
+  return sum;
+};
 
 // console.log(p140Solution2())
 
