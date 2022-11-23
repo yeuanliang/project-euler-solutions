@@ -612,3 +612,17 @@ exports.calculateCombinatorial = internals.calculateCombinatorial = function (
   }
   return numerators;
 };
+
+exports.findRepunit = internals.findRepunit = function (n) {
+  if (n === 3) {
+    return 3;
+  }
+  let i = 2n;
+  while (true) {
+    let r = internals.modPower(10n, i, BigInt(n));
+    if (r === 1n) {
+      return Number(i);
+    }
+    i++;
+  }
+};
