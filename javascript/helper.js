@@ -613,7 +613,7 @@ exports.calculateCombinatorial = internals.calculateCombinatorial = function (
   return numerators;
 };
 
-exports.findRepunit = internals.findRepunit = function (n) {
+exports.calcA = internals.calcA = function (n) {
   if (n === 3) {
     return 3;
   }
@@ -626,3 +626,14 @@ exports.findRepunit = internals.findRepunit = function (n) {
     i++;
   }
 };
+
+exports.findRepunit = internals.findRepunit = function(n){
+  // R(n+1) = R(n)*10 + 1
+  let k=1
+  let q=1
+  while(q!==0){
+    q=(q*10+1)%n
+    k++
+  }
+  return k
+}
