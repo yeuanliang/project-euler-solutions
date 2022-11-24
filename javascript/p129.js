@@ -2,20 +2,6 @@
 
 const helper = require("./helper");
 
-const findK = function (n) {
-  if (n === 3) {
-    return 3;
-  }
-  let i = 2n;
-  while (true) {
-    let r = helper.modPower(10n, i, BigInt(n));
-    if (r === 1n) {
-      return Number(i);
-    }
-    i++;
-  }
-};
-
 const p129Solution = function () {
   let start = 10 ** 6 + 1;
   while (true) {
@@ -27,32 +13,18 @@ const p129Solution = function () {
       let len = bases.length;
       let ks = [];
       for (let i = 0; i < len; i++) {
-        let k = findK(bases[i]);
+        let k = helper.findRepunit(bases[i]);
         ks.push(k);
       }
-      let found = true;
-      for (let i = 0; i < len - 1; i++) {
-        for (let j = i + 1; j < len; j++) {
-          if (helper.gcd(ks[i], ks[j]) === 1) {
-            found = found && true;
-          } else {
-            found = found && false;
-          }
-        }
+      let res = ks[0] * bases[0] ** (exponents[0] - 1);
+      for (let i = 1; i < len; i++) {
+        let t = ks[i] * bases[i] ** (exponents[i] - 1);
+        let gcd = helper.gcd(res, t);
+        res = (res * t) / gcd;
       }
-      if (found) {
-        let num = 1;
-        for (let i = 0; i < len; i++) {
-          num *= ks[i] ** exponents[i];
-        }
-        if (num > 1000000) {
-          return start;
-        }
-      }
-    } else {
-      if (findK(start) > 1000000) {
-        console.log(start);
-        return;
+
+      if (res > 1000000) {
+        return start;
       }
     }
     start += 2;
