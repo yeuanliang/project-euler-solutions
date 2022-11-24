@@ -3,8 +3,9 @@
 const helper = require("./helper");
 
 const findPrimes = function (n, d) {
+  const s = String(((10 ** n - 1) / 9) * d);
+  const tails = [1, 3, 7, 9];
   let primes = [];
-  let tails = [1, 3, 7, 9];
   if (d === 0) {
     for (let i = 1; i <= 9; i++)
       for (let j = 0; j < 4; j++) {
@@ -16,25 +17,14 @@ const findPrimes = function (n, d) {
           primes.push(num);
         }
       }
-  } else {
-    let a = 1;
-    let s = String(((10 ** n - 1) / 9) * d);
-    while (a <= n) {
-      let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-      for (let digit of digits) {
-        let h = Number(s.slice(0, a - 1));
-        let t = Number(s.slice(a));
-        if (digit > 0 && digit % 3 === 0) {
-          continue;
-        }
-        if (digit !== d) {
-          let num = h * 10 ** (n - a + 1) + 10 ** (n - a) * digit + t;
-          if (num > 10 ** (n - 1) && helper.isPrime(num)) {
-            primes.push(num);
-          }
-        }
-      }
-      a++;
+  } else if (d % 2 === 0 || d === 5) {
+    let num = Number(s) - d + 1;
+    let num2 = Number(s) - d + 7;
+    if (helper.isPrime(num)) {
+      primes.push(num);
+    }
+    if (helper.isPrime(num2)) {
+      primes.push(num2);
     }
     if (primes.length === 0) {
       let a = 1;
@@ -55,6 +45,25 @@ const findPrimes = function (n, d) {
         }
         a++;
       }
+    }
+  } else {
+    let a = 1;
+    while (a <= n) {
+      let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+      for (let digit of digits) {
+        let h = Number(s.slice(0, a - 1));
+        let t = Number(s.slice(a));
+        if (digit > 0 && digit % 3 === 0) {
+          continue;
+        }
+        if (digit !== d) {
+          let num = h * 10 ** (n - a + 1) + 10 ** (n - a) * digit + t;
+          if (num > 10 ** (n - 1) && helper.isPrime(num)) {
+            primes.push(num);
+          }
+        }
+      }
+      a++;
     }
   }
   return primes;
