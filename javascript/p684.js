@@ -28,11 +28,11 @@ const ss = function (n) {
 
 const mod = function (a, b, c) {
   let r = 0n;
-  if(b>=p-1n){
-    b=b%(p-1n)
+  if (b >= p - 1n) {
+    b = b % (p - 1n);
   }
-  if(c>=p){
-    c=c%p
+  if (c >= p) {
+    c = c % p;
   }
   if (b < 9n) {
     r = a * 10n ** b - c;
