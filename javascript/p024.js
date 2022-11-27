@@ -1,7 +1,8 @@
 "use strict";
 
 const helper = require("./helper");
-const p024Solution = function(){
+
+const p024Solution = function () {
   let target = 1000000;
   const result = [];
   const remain = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -14,6 +15,7 @@ const p024Solution = function(){
     result.push(remain[temp - 1]);
     remain.splice(temp - 1, 1);
   }
-  return result.reduce((x, y) => x + "" + y)
-}
+  return result.reduce((x, y) => x + "" + y);
+};
+
 console.log(p024Solution());

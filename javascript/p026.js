@@ -54,8 +54,6 @@ const p026Solution = function (n) {
           cycleInfo: info,
         };
       }
-    } else {
-      continue;
     }
   }
   return result;
