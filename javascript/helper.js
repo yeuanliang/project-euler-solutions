@@ -12,17 +12,17 @@ exports.readFile = internals.readFile = function (filename) {
   return data;
 };
 
-exports.reverse = internals.reverse = function (n) {
+exports.reverse = internals.reverse = function (n,b=10) {
   let reversed = 0;
   while (n > 0) {
-    reversed = 10 * reversed + (n % 10);
-    n = parseInt(n / 10);
+    reversed = b * reversed + (n % b);
+    n = parseInt(n / b);
   }
   return reversed;
 };
 
-exports.isPalindrome = internals.isPalindrome = function (n) {
-  return n === internals.reverse(n);
+exports.isPalindrome = internals.isPalindrome = function (n,b) {
+  return n === internals.reverse(n,b);
 };
 
 exports.getPrimes = internals.getPrimes = function (n) {
