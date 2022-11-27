@@ -16,6 +16,7 @@ const factorial = function (n) {
   }
   return product;
 };
+
 console.log(factorial(100).reduce((x, y) => x + y));
 
 const factorialNormal = function (n) {
@@ -25,12 +26,6 @@ const factorialNormal = function (n) {
   }
   return result;
 };
-console.log(
-  factorialNormal(100)
-    .toString()
-    .split("")
-    .reduce((x, y) => +x + +y)
-);
 
 const factorialRecursive = function (n) {
   if (n < 0) {
@@ -41,9 +36,3 @@ const factorialRecursive = function (n) {
   }
   return BigInt(n) * factorialRecursive(n - 1);
 };
-console.log(
-  factorialRecursive(100)
-    .toString()
-    .split("")
-    .reduce((x, y) => +x + +y)
-);

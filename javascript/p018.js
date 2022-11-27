@@ -16,24 +16,30 @@ const triangle = `75
 63 66 04 68 89 53 67 30 73 16 69 87 40 31
 04 62 98 27 23 09 70 98 73 93 38 53 60 04 23`;
 
-const data = triangle.split("\n").map((item) => item.split(" ").map((t) => +t));
-const routes = [];
-const sums = [];
-for (let i = 0; i < data.length - 1; i++) {
-  routes.push([]);
-  sums.push([]);
-}
-sums.push(data[data.length - 1]);
-routes.push(data[data.length - 1]);
-for (let i = data.length - 2; i >= 0; i--) {
-  for (let j = 0; j < data[i].length; j++) {
-    if (sums[i + 1][j] > sums[i + 1][j + 1]) {
-      sums[i][j] = sums[i + 1][j] + data[i][j];
-      routes[i][j] = routes[i + 1][j] + " + " + data[i][j];
-    } else {
-      sums[i][j] = sums[i + 1][j + 1] + data[i][j];
-      routes[i][j] = routes[i + 1][j + 1] + " + " + data[i][j];
+const p018Solution = function () {
+  const data = triangle
+    .split("\n")
+    .map((item) => item.split(" ").map((t) => +t));
+  const routes = [];
+  const sums = [];
+  for (let i = 0; i < data.length - 1; i++) {
+    routes.push([]);
+    sums.push([]);
+  }
+  sums.push(data[data.length - 1]);
+  routes.push(data[data.length - 1]);
+  for (let i = data.length - 2; i >= 0; i--) {
+    for (let j = 0; j < data[i].length; j++) {
+      if (sums[i + 1][j] > sums[i + 1][j + 1]) {
+        sums[i][j] = sums[i + 1][j] + data[i][j];
+        routes[i][j] = routes[i + 1][j] + " + " + data[i][j];
+      } else {
+        sums[i][j] = sums[i + 1][j + 1] + data[i][j];
+        routes[i][j] = routes[i + 1][j + 1] + " + " + data[i][j];
+      }
     }
   }
-}
-console.log(sums[0][0] + " = " + routes[0][0]);
+  return { sum: sums[0][0], route: routes[0][0] };
+};
+
+console.log(p018Solution());
