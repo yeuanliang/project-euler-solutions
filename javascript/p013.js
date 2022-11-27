@@ -1,6 +1,7 @@
 "use strict";
 
-const txt = `37107287533902102798797998220837590246510135740250
+const p013Solution = function () {
+  const txt = `37107287533902102798797998220837590246510135740250
 46376937677490009712648124896970078050417018260538
 74324986199524741059474233309513058123726617309629
 91942213363574161572522430563301811072406154908250
@@ -101,39 +102,41 @@ const txt = `37107287533902102798797998220837590246510135740250
 20849603980134001723930671666823555245252804609722
 53503534226472524250874054075591789781264330331690`;
 
-const array = txt.split("\n").map((item) => Array.from(item).map((t) => +t));
-const digits = [];
-let sum = 0;
-let k = 0;
-for (let j = 49; j >= 0; j--) {
-  for (let i = 0; i < 100; i++) {
-    sum += array[i][j];
-  }
-  let t = k;
-  while (sum > 0) {
-    if (!digits[t]) {
-      digits[t] = sum % 10;
-    } else {
-      if (digits[t] + (sum % 10) >= 10) {
-        digits[t] = (digits[t] + (sum % 10)) % 10;
-        if (!digits[t + 1]) {
-          digits[t + 1] = 1;
-        } else {
-          digits[t + 1] = digits[t + 1] + 1;
-        }
-      } else {
-        digits[t] = digits[t] + (sum % 10);
-      }
+  const array = txt.split("\n").map((item) => Array.from(item).map((t) => +t));
+  const digits = [];
+  let sum = 0;
+  let k = 0;
+  for (let j = 49; j >= 0; j--) {
+    for (let i = 0; i < 100; i++) {
+      sum += array[i][j];
     }
-    sum = Math.floor(sum / 10);
-    t = t + 1;
+    let t = k;
+    while (sum > 0) {
+      if (!digits[t]) {
+        digits[t] = sum % 10;
+      } else {
+        if (digits[t] + (sum % 10) >= 10) {
+          digits[t] = (digits[t] + (sum % 10)) % 10;
+          if (!digits[t + 1]) {
+            digits[t + 1] = 1;
+          } else {
+            digits[t + 1] = digits[t + 1] + 1;
+          }
+        } else {
+          digits[t] = digits[t] + (sum % 10);
+        }
+      }
+      sum = Math.floor(sum / 10);
+      t = t + 1;
+    }
+    k += 1;
+    sum = 0;
   }
-  k += 1;
-  sum = 0;
-}
-const result = digits.reverse().reduce((x, y) => x + "" + y + "");
-console.log(result.substring(0, 10));
+  const result = digits.reverse().reduce((x, y) => x + "" + y + "");
+  // use BigInt
+  // const resultBigInt = txt.split('\n').reduce((x,y)=>BigInt(x)+BigInt(y))
+  // return resultBigInt.toString().substring(0,10)
+  return result.substring(0, 10);
+};
 
-// use BigInt
-const resultBigInt = txt.split('\n').reduce((x,y)=>BigInt(x)+BigInt(y))
-console.log(resultBigInt.toString().substring(0,10))
+console.log(p013Solution());
