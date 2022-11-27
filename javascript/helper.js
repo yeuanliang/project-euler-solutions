@@ -201,10 +201,10 @@ exports.countDivisors = internals.countDivisors = function (n) {
 };
 
 exports.sumOfDivisors = internals.sumOfDivisors = function (n) {
-  const { primes, exponents } = internals.primeFactorization(n);
+  const { bases, exponents } = internals.primeFactorization(n);
   let sum = 1;
-  for (let i = 0; i < primes.length; i++) {
-    sum *= (primes[i] ** (exponents[i] + 1) - 1) / (primes[i] - 1);
+  for (let i = 0; i < bases.length; i++) {
+    sum *= (bases[i] ** (exponents[i] + 1) - 1) / (bases[i] - 1);
   }
   return sum;
 };
