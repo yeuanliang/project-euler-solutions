@@ -26,4 +26,29 @@ const p211Solution = function (limit) {
   return sum;
 };
 
-console.log(p211Solution(64000000));
+// console.log(p211Solution(64000000));
+
+// time cost: 21s
+const p211Solution2 = function (limit) {
+  const divSum = Array.from({ length: limit }, (v, i) => {
+    if (i < 2) {
+      return i;
+    } else {
+      return 1 + i * i;
+    }
+  });
+  for (let i = 2; i * i < limit; i++) {
+    for (let m = i, j = i * m; j < limit; j += i, m++) {
+      divSum[j] += i === m ? i * i : i * i + m * m;
+    }
+  }
+  let sum = 0;
+  for (let i = 1; i < limit; i++) {
+    if (helper.isSquare(divSum[i])) {
+      sum += i;
+    }
+  }
+  return sum;
+};
+
+console.log(p211Solution2(64000000));
