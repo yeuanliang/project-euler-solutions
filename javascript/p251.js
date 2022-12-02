@@ -1,9 +1,13 @@
 "use strict";
 
-// time cost: 19m 56s
+// time cost: 14m 31s
 // a^2 - c*b^2 = p^3
 // 3*p = 1 - 2*a , a = 3*k-1, p = 1-2*k
 // k^2*(8*k-3) = c*b^2 (k>=1)
+// p = gcd(b,k), b = p*r, k = p*q, q^2*(8*k-3) = c*r^2, r is odd
+// 8*k-3 = s*r^2, c = s*q^2, gcd(q,r) = 1, a = 3*p*q-1
+// 8*p*q = s*r^2+3, a+b+c = 3*p*q+p*r+s*q^2 <= limit+1
+
 const helper = require("./helper");
 const p251Solution = function (limit) {
   let count = 0;
@@ -14,7 +18,7 @@ const p251Solution = function (limit) {
     let r = Math.floor(Math.sqrt(m));
     let t = Math.floor(Math.sqrt(k));
     let d1 = [];
-    for (let j = 2; j <= r; j++) {
+    for (let j = 3; j <= r; j += 2) {
       if (m % (j * j) === 0) {
         d1.push(j);
       }
@@ -49,9 +53,6 @@ const p251Solution = function (limit) {
     k++;
     if (k > limit / 6) {
       break;
-    }
-    if(k%1000000===0){
-        console.log(k)
     }
   }
   return count;
