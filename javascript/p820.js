@@ -106,4 +106,37 @@ const p820Solution = function (limit) {
   return sum;
 };
 
-console.log(p820Solution(10 ** 7));
+// console.log(p820Solution(10 ** 7));
+
+// the nth digit of x/y is the 1st digit of (10^(n-1)*x mod y)/y
+// = floor((10^n*x mod 10*y)/y)
+// https://www.xarg.org/puzzle/codesignal/reciprocal/
+
+const modPower = function (a, b, p) {
+  let ans = 1;
+  let exp = b;
+  while (exp) {
+    if (exp & 1) {
+      ans = (ans * a) % p;
+    }
+    a = (a * a) % p;
+    exp >>= 1;
+  }
+  return ans;
+};
+
+const calcNthDigit = function (n, k) {
+  const r = modPower(10, n, 10*k);
+  return Math.floor(r/k);
+};
+
+// time cost: 5s
+const p820Solution2 = function (limit) {
+  let sum = 0;
+  for (let i = 2; i <= limit; i++) {
+    sum += calcNthDigit(limit, i);
+  }
+  return sum;
+};
+
+console.log(p820Solution2(10 ** 7));
