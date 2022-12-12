@@ -6,7 +6,7 @@
 // A: the string of digits of the transient; (the preperiod)
 // P: the string of repeated digits; (the period)
 
-// time cost:
+// time cost: 10h 34min 6s
 
 const helper = require("./helper");
 
@@ -48,14 +48,9 @@ const findDigit = function (n, k) {
 };
 
 const p820Solution = function (limit) {
-  const start = Date.now();
   const periods = genPeriods(limit);
-  console.log("init cost:", (Date.now() - start) / 1000);
   let sum = 0;
   for (let i = 2; i <= limit; i++) {
-    if (i % 1000000 === 0) {
-      console.log(i, (Date.now() - start) / 1000);
-    }
     if (periods.has(i)) {
       // i is prime
       let t = periods.get(i);
@@ -111,5 +106,4 @@ const p820Solution = function (limit) {
   return sum;
 };
 
-// console.log(p820Solution(10 ** 7));
-console.log(p820Solution(10 ** 6));
+console.log(p820Solution(10 ** 7));
